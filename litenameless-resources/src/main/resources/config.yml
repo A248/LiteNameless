@@ -1,0 +1,11 @@
+settings:
+  api:
+    host: 'http(s)://example.com'
+    key: ' '
+  server-id: 0
+  upload-period: 10
+messages:
+  permission: '&cSorry, you cannot use this.'
+  usage: '&cUsage: /nameless reload'
+  cmds:
+    reload: '&aReloaded!'
