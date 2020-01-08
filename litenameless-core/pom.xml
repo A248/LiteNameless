@@ -22,7 +22,6 @@
 		<dependency>
 			<groupId>space.arim</groupId>
 			<artifactId>arimapi-core</artifactId>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
