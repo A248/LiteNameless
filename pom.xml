@@ -27,6 +27,7 @@
     	<snakeyaml.version>1.25</snakeyaml.version>
     	<spigot.version>1.15.1-R0.1-SNAPSHOT</spigot.version>
 		<bungeecord.version>1.15-SNAPSHOT</bungeecord.version>
+		<sponge.version>7.1.0</sponge.version>
     </properties>
     
     <licenses>
@@ -75,6 +76,8 @@
 		<module>litenameless-core</module>
 		<module>litenameless-resources</module>
 		<module>litenameless-spigot</module>
+		<module>litenameless-bungee</module>
+		<module>litenameless-sponge</module>
 	</modules>
 	
 	<distributionManagement>
@@ -113,9 +116,13 @@
 			</dependency>
 			<dependency>
 				<groupId>space.arim</groupId>
+				<artifactId>litenameless-core</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>space.arim</groupId>
 				<artifactId>arimapi-core</artifactId>
 				<version>${arimapi.version}</version>
-				<scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.yaml</groupId>
@@ -135,6 +142,12 @@
 				<version>${bungeecord.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			<dependency>
+				<groupId>org.spongepowered</groupId>
+				<artifactId>spongeapi</artifactId>
+				<version>${sponge.version}</version>
+				<scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	
@@ -151,5 +164,9 @@
        		<id>bungeecord-repo</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
    		</repository>
+   		<repository>
+			<id>sponge-repo</id>
+			<url>https://repo.spongepowered.org/maven</url>
+		</repository>
 	</repositories>
 </project>
