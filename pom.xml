@@ -15,7 +15,7 @@
 	<name>LiteNameless</name>
 	<description>A lightweight plugin for NamelessMC v2 in-game integration.</description>
 	<url>https://github.com/A248/LiteNameless</url>
-	<inceptionYear>2019</inceptionYear>
+	<inceptionYear>2020</inceptionYear>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
