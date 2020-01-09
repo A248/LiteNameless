@@ -9,3 +9,6 @@ messages:
   usage: '&cUsage: /nameless reload'
   cmds:
     reload: '&aReloaded!'
+    setgroup:
+      success: ''
+do-not-touch-version: 1
