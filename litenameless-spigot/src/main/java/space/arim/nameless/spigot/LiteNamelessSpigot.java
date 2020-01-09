@@ -25,7 +25,6 @@ import java.util.Set;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import space.arim.namelessplugin.LiteNameless;
@@ -33,7 +32,7 @@ import space.arim.namelessplugin.api.PlayerWrapper;
 import space.arim.namelessplugin.api.ServerEnv;
 import space.arim.namelessplugin.api.StaticPlayerData;
 
-public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
+public class LiteNamelessSpigot extends JavaPlugin implements ServerEnv {
 	
 	private LiteNameless core;
 	
