@@ -33,7 +33,7 @@ import space.arim.namelessplugin.api.PlayerWrapper;
 import space.arim.namelessplugin.api.ServerEnv;
 import space.arim.namelessplugin.api.StaticPlayerData;
 
-public class LitenamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
+public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
 	
 	private LiteNameless core;
 	
