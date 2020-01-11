@@ -18,16 +18,12 @@
  */
 package space.arim.namelessplugin.api;
 
-/**
- * A wrapper whose implementation <b>must</b> be thread safe.
- * 
- * @author A248
- *
- */
-public interface PlayerWrapper {
+import java.util.UUID;
+
+public interface PlayerWrapper extends SenderWrapper {
+
+	UUID getUniqueId();
 	
-	boolean hasPermission(String permission);
-	
-	void sendMessage(String message);
+	String getName();
 	
 }

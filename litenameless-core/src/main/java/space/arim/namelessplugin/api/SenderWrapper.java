@@ -18,54 +18,10 @@
  */
 package space.arim.namelessplugin.api;
 
-import java.util.UUID;
-
-public class StaticPlayerData {
-
-	private final UUID uuid;
-	private final String name;
-	private final double x;
-	private final double y;
-	private final double z;
-	private final String world;
-	private final String addr;
+public interface SenderWrapper {
 	
-	public StaticPlayerData(UUID uuid, String name, double x, double y, double z, String world, String addr) {
-		this.uuid = uuid;
-		this.name = name;
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		this.world = world;
-		this.addr = addr;
-	}
+	boolean hasPermission(String permission);
 	
-	public UUID getUniqueId() {
-		return uuid;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public double getLocationX() {
-		return x;
-	}
-	
-	public double getLocationY() {
-		return y;
-	}
-	
-	public double getLocationZ() {
-		return z;
-	}
-	
-	public String getLocationWorld() {
-		return world;
-	}
-	
-	public String getAddress() {
-		return addr;
-	}
+	void sendMessage(String message);
 	
 }

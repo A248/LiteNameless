@@ -18,8 +18,6 @@
  */
 package space.arim.namelessplugin.api;
 
-import java.util.Collection;
-
 import space.arim.universal.registry.UniversalRegistry;
 
 public interface ServerEnv {
@@ -27,9 +25,5 @@ public interface ServerEnv {
 	default UniversalRegistry getRegistry() {
 		return UniversalRegistry.get();
 	}
-	
-	int getCurrentTps();
-	
-	Collection<StaticPlayerData> getPlayersOnline();
 	
 }
