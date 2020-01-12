@@ -26,4 +26,6 @@ public interface ServerEnv {
 		return UniversalRegistry.get();
 	}
 	
+	PlayerWrapper getIfOnline(String name);
+	
 }
