@@ -4,11 +4,18 @@ settings:
     key: ' '
   server-id: 0
   upload-period: 10
+ranks:
+  enable: true
+  order:
+    - 1
+    - 2
 messages:
   permission: '&cSorry, you cannot use this.'
-  usage: '&cUsage: /nameless reload'
+  usage: '&cUsage: /litenameless &e<reload|setgroup>&c.'
   cmds:
-    reload: '&aReloaded!'
+    reload: '&aReloaded LiteNameless!'
     setgroup:
-      success: ''
+      usage: '&cUsage /litenameless setgroup &e<player> <group_id>&c.'
+      invalid: '&cError! That player is not online.'
+      complete: '&aSet group of &5%TARGET%&a to &e%GROUP%&a. &7Check the server log for potential errors.'
 do-not-touch-version: 1
