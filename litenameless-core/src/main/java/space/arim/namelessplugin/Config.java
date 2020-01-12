@@ -18,9 +18,9 @@
  */
 package space.arim.namelessplugin;
 
-import space.arim.api.util.config.SimpleConfig;
+import space.arim.api.config.SimpleConfig;
 
-public class Config extends SimpleConfig {
+class Config extends SimpleConfig {
 	
 	private static final String CONFIG_PATH = "config.yml";
 	private static final int CONFIG_VERSION = 1;

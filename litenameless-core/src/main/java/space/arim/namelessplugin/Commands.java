@@ -19,8 +19,9 @@
 package space.arim.namelessplugin;
 
 import space.arim.namelessplugin.api.PlayerWrapper;
+import space.arim.namelessplugin.api.SenderWrapper;
 
-public class Commands {
+class Commands {
 
 	private final LiteNameless core;
 	
@@ -28,24 +29,30 @@ public class Commands {
 		this.core = core;
 	}
 	
-	void executeCommand(PlayerWrapper player, String[] args) {
-		if (!player.hasPermission("nameless.cmd.base")) {
+	void executeCommand(SenderWrapper player, String[] args) {
+		if (!player.hasPermission("litenameless.cmd.base")) {
 			player.sendMessage(core.config().getString("messages.permission"));
 			return;
 		} else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("reload")) {
-				if (player.hasPermission("nameless.cmd.reload")) {
+				if (player.hasPermission("litenameless.cmd.reload")) {
 					core.config().reload();
 					player.sendMessage(core.config().getString("messages.cmds.reload"));
 				} else {
 					player.sendMessage(core.config().getString("messages.permission"));
 				}
 			} else if (args[0].equalsIgnoreCase("setgroup")) {
-				if (player.hasPermission("nameless.cmd.setgroup")) {
+				if (player.hasPermission("litenameless.cmd.setgroup")) {
 					if (args.length > 2) {
-						
+						PlayerWrapper target = core.env().getIfOnline(args[1]);
+						if (target != null) {
+							core.setGroup(target.getUniqueId(), args[2]);
+							player.sendMessage(core.config().getString("messages.cmds.setgroup.complete").replace("%TARGET%", args[1]).replace("%GROUP%", args[2]));
+						} else {
+							player.sendMessage(core.config().getString("messages.cmds.setgroup.invalid").replace("%TARGET%", args[1]));
+						}
 					} else {
-						
+						player.sendMessage(core.config().getString("messages.cmds.setgroup.usage"));
 					}
 				} else {
 					player.sendMessage(core.config().getString("messages.permission"));
@@ -56,10 +63,9 @@ public class Commands {
 		} else {
 			usage(player);
 		}
-		
 	}
 	
-	private void usage(PlayerWrapper player) {
+	private void usage(SenderWrapper player) {
 		player.sendMessage(core.config().getString("messages.usage"));
 	}
 	
