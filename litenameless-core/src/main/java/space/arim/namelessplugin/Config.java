@@ -21,12 +21,9 @@ package space.arim.namelessplugin;
 import space.arim.api.config.SimpleConfig;
 
 class Config extends SimpleConfig {
-	
-	private static final String CONFIG_PATH = "config.yml";
-	private static final int CONFIG_VERSION = 1;
-	
+
 	Config(LiteNameless core) {
-		super(core.folder(), CONFIG_PATH, CONFIG_VERSION, "do-not-touch-version");
+		super(core.folder(), "config.yml", "do-not-touch-version");
 	}
 	
 }
