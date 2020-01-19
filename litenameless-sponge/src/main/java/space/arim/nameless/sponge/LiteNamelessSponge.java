@@ -105,7 +105,7 @@ class WrappedSender implements SenderWrapper {
 
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(SpongeUtil.color(message));
+		sender.sendMessage(SpongeUtil.colour(message));
 	}
 	
 }

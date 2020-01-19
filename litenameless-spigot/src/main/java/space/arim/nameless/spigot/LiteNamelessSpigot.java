@@ -90,7 +90,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(SpigotUtil.color(message));
+		sender.sendMessage(SpigotUtil.colour(message));
 	}
 	
 }

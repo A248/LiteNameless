@@ -91,7 +91,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(BungeeUtil.color(message));
+		sender.sendMessage(BungeeUtil.colour(message));
 	}
 	
 }
