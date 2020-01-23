@@ -18,11 +18,12 @@
  */
 package space.arim.namelessplugin.api;
 
+import space.arim.universal.registry.Registry;
 import space.arim.universal.registry.UniversalRegistry;
 
 public interface ServerEnv {
 	
-	default UniversalRegistry getRegistry() {
+	default Registry getRegistry() {
 		return UniversalRegistry.get();
 	}
 	
