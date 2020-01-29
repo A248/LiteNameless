@@ -29,7 +29,13 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.concurrent.SyncExecution;
+import space.arim.api.server.bukkit.DefaultAsyncExecution;
+import space.arim.api.server.bukkit.DefaultSyncExecution;
+import space.arim.api.server.bukkit.DefaultUUIDResolver;
 import space.arim.api.server.bukkit.SpigotUtil;
+import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
@@ -39,6 +45,13 @@ import space.arim.namelessplugin.api.ServerEnv;
 public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
 	
 	private LiteNameless core;
+	
+	@Override
+	public void onLoad() {
+		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(this));
+		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(this));
+		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
+	}
 	
 	@Override
 	public void onEnable() {
@@ -61,16 +74,6 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEn
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onJoin(PlayerJoinEvent evt) {
 		core.login(new WrappedPlayer(evt.getPlayer()));
-	}
-
-	@Override
-	public PlayerWrapper getIfOnline(String name) {
-		for (Player player : getServer().getOnlinePlayers()) {
-			if (player.getName().equalsIgnoreCase(name)) {
-				return new WrappedPlayer(player);
-			}
-		}
-		return null;
 	}
 	
 }

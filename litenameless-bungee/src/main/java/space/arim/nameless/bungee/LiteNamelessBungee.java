@@ -29,7 +29,14 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.concurrent.SyncExecution;
 import space.arim.api.server.bungee.BungeeUtil;
+import space.arim.api.server.bungee.DefaultAsyncExecution;
+import space.arim.api.server.bungee.DefaultSyncExecution;
+import space.arim.api.server.bungee.DefaultUUIDResolver;
+import space.arim.api.uuid.UUIDResolver;
+
 import space.arim.namelessplugin.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
 import space.arim.namelessplugin.api.SenderWrapper;
@@ -38,6 +45,13 @@ import space.arim.namelessplugin.api.ServerEnv;
 public class LiteNamelessBungee extends Plugin implements Listener, ServerEnv {
 	
 	private LiteNameless core;
+	
+	@Override
+	public void onLoad() {
+		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(this));
+		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(this));
+		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
+	}
 	
 	@Override
 	public void onEnable() {
@@ -62,16 +76,6 @@ public class LiteNamelessBungee extends Plugin implements Listener, ServerEnv {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private void onJoin(PostLoginEvent evt) {
 		core.login(new WrappedPlayer(evt.getPlayer()));
-	}
-
-	@Override
-	public PlayerWrapper getIfOnline(String name) {
-		for (ProxiedPlayer player : getProxy().getPlayers()) {
-			if (player.getName().equalsIgnoreCase(name)) {
-				return new WrappedPlayer(player);
-			}
-		}
-		return null;
 	}
 	
 }

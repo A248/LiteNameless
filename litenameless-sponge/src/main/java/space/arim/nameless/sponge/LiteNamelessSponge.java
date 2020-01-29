@@ -35,10 +35,20 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.plugin.PluginContainer;
+import org.spongepowered.api.scheduler.AsynchronousExecutor;
+import org.spongepowered.api.scheduler.SpongeExecutorService;
+import org.spongepowered.api.scheduler.SynchronousExecutor;
 
 import com.google.inject.Inject;
 
+import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.concurrent.SyncExecution;
+import space.arim.api.server.sponge.DefaultAsyncExecution;
+import space.arim.api.server.sponge.DefaultSyncExecution;
+import space.arim.api.server.sponge.DefaultUUIDResolver;
 import space.arim.api.server.sponge.SpongeUtil;
+import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
@@ -52,6 +62,14 @@ public class LiteNamelessSponge implements CommandExecutor, ServerEnv {
 	private File folder;
 	
 	private LiteNameless core;
+	
+	@Inject
+	public LiteNamelessSponge(@AsynchronousExecutor SpongeExecutorService async, @SynchronousExecutor SpongeExecutorService sync) {
+		PluginContainer plugin = Sponge.getPluginManager().fromInstance(this).get();
+		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(plugin, async));
+		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(plugin, sync));
+		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(plugin));
+	}
 	
 	@Listener
 	private void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
@@ -76,16 +94,6 @@ public class LiteNamelessSponge implements CommandExecutor, ServerEnv {
 	@Listener
 	private void onJoin(ClientConnectionEvent.Join evt) {
 		core.login(new WrappedPlayer(evt.getTargetEntity()));
-	}
-	
-	@Override
-	public PlayerWrapper getIfOnline(String name) {
-		for (Player player : Sponge.getServer().getOnlinePlayers()) {
-			if (player.getName().equalsIgnoreCase(name)) {
-				return new WrappedPlayer(player);
-			}
-		}
-		return null;
 	}
 
 }

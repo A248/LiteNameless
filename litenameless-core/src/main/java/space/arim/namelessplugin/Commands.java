@@ -18,7 +18,12 @@
  */
 package space.arim.namelessplugin;
 
-import space.arim.namelessplugin.api.PlayerWrapper;
+import java.util.UUID;
+
+import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.uuid.PlayerNotFoundException;
+import space.arim.api.uuid.UUIDResolver;
+
 import space.arim.namelessplugin.api.SenderWrapper;
 
 class Commands {
@@ -44,11 +49,13 @@ class Commands {
 			} else if (args[0].equalsIgnoreCase("setgroup")) {
 				if (player.hasPermission("litenameless.cmd.setgroup")) {
 					if (args.length > 2) {
-						PlayerWrapper target = core.env().getIfOnline(args[1]);
-						if (target != null) {
-							core.setGroup(target.getUniqueId(), args[2]);
-							player.sendMessage(core.config().getString("messages.cmds.setgroup.complete").replace("%TARGET%", args[1]).replace("%GROUP%", args[2]));
-						} else {
+						try {
+							UUID target = core.env().getRegistry().getRegistration(UUIDResolver.class).resolveName(args[1], false);
+							core.env().getRegistry().getRegistration(AsyncExecution.class).execute(() -> {
+								core.setGroup(target, args[2]);
+								player.sendMessage(core.config().getString("messages.cmds.setgroup.complete").replace("%TARGET%", args[1]).replace("%GROUP%", args[2]));
+							});
+						} catch (PlayerNotFoundException ex) {
 							player.sendMessage(core.config().getString("messages.cmds.setgroup.invalid").replace("%TARGET%", args[1]));
 						}
 					} else {
