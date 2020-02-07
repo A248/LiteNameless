@@ -23,8 +23,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import space.arim.universal.util.exception.HttpStatusException;
-import space.arim.universal.util.lang.AutoClosable;
+import space.arim.universal.util.AutoClosable;
+import space.arim.universal.util.web.HttpStatusException;
 
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.util.web.NamelessHandler;
@@ -65,8 +65,8 @@ public class LiteNameless implements AutoClosable {
 		config.reload();
 	}
 	
-	public void executeCommand(SenderWrapper player, String[] args) {
-		commands.executeCommand(player, args);
+	public boolean executeCommand(SenderWrapper player, String[] args) {
+		return commands.executeCommand(player, args);
 	}
 	
 	public void login(PlayerWrapper player) {

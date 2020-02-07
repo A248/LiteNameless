@@ -34,10 +34,10 @@ class Commands {
 		this.core = core;
 	}
 	
-	void executeCommand(SenderWrapper player, String[] args) {
+	boolean executeCommand(SenderWrapper player, String[] args) {
 		if (!player.hasPermission("litenameless.cmd.base")) {
 			player.sendMessage(core.config().getString("messages.permission"));
-			return;
+			return true;
 		} else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("reload")) {
 				if (player.hasPermission("litenameless.cmd.reload")) {
@@ -70,6 +70,7 @@ class Commands {
 		} else {
 			usage(player);
 		}
+		return true;
 	}
 	
 	private void usage(SenderWrapper player) {
