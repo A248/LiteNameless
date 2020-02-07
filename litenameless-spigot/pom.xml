@@ -18,6 +18,10 @@
 		<finalName>${project.name}_v${core.version}_unshaded</finalName>
 		<resources>
 			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
 				<directory>${project.build.directory}/shared-resources</directory>
 				<filtering>true</filtering>
 			</resource>

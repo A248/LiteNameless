@@ -22,11 +22,19 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
     	<core.version>0.1.0</core.version>
+    	<core.author>A248</core.author>
     	<universal.version>0.6.7-SNAPSHOT</universal.version>
     	<arimapi.version>0.6.0-SNAPSHOT</arimapi.version>
     	<spigot.version>1.15.1-R0.1-SNAPSHOT</spigot.version>
 		<bungeecord.version>1.15-SNAPSHOT</bungeecord.version>
 		<sponge.version>7.1.0</sponge.version>
+		
+		<plugin.name>${project.name}</plugin.name>
+		<plugin.version>${core.version}</plugin.version>
+		<plugin.author>${core.author}</plugin.author>
+		<plugin.spongeid>litenameless</plugin.spongeid> <!-- Corresponds with the @Plugin annotation -->
+		<plugin.url>${project.url}</plugin.url>
+		<plugin.description>${project.description}</plugin.description>
     </properties>
     
     <licenses>

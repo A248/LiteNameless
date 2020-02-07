@@ -19,22 +19,17 @@
 package space.arim.nameless.sponge;
 
 import java.io.File;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import org.spongepowered.api.Sponge;
-import org.spongepowered.api.command.CommandException;
-import org.spongepowered.api.command.CommandResult;
 import org.spongepowered.api.command.CommandSource;
-import org.spongepowered.api.command.args.CommandContext;
-import org.spongepowered.api.command.spec.CommandExecutor;
-import org.spongepowered.api.command.spec.CommandSpec;
 import org.spongepowered.api.config.ConfigDir;
-import org.spongepowered.api.entity.living.player.Player;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
+import org.spongepowered.api.plugin.Dependency;
+import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.scheduler.AsynchronousExecutor;
 import org.spongepowered.api.scheduler.SpongeExecutorService;
@@ -43,19 +38,19 @@ import org.spongepowered.api.scheduler.SynchronousExecutor;
 import com.google.inject.Inject;
 
 import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.concurrent.Shutdownable;
 import space.arim.api.concurrent.SyncExecution;
+import space.arim.api.server.sponge.DecoupledCommand;
 import space.arim.api.server.sponge.DefaultAsyncExecution;
 import space.arim.api.server.sponge.DefaultSyncExecution;
 import space.arim.api.server.sponge.DefaultUUIDResolver;
-import space.arim.api.server.sponge.SpongeUtil;
 import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;
-import space.arim.namelessplugin.api.PlayerWrapper;
-import space.arim.namelessplugin.api.SenderWrapper;
 import space.arim.namelessplugin.api.ServerEnv;
 
-public class LiteNamelessSponge implements CommandExecutor, ServerEnv {
+@Plugin(id = "${plugin.spongeid}", name = "${plugin.name}", version = "${plugin.version}", authors = {"${plugin.author}"}, description = "${plugin.description}", url = "${plugin.url}", dependencies = {@Dependency(id = "arimapiplugin")})
+public class LiteNamelessSponge extends DecoupledCommand implements ServerEnv {
 
 	@Inject
 	@ConfigDir(sharedRoot=false)
@@ -65,73 +60,40 @@ public class LiteNamelessSponge implements CommandExecutor, ServerEnv {
 	
 	@Inject
 	public LiteNamelessSponge(@AsynchronousExecutor SpongeExecutorService async, @SynchronousExecutor SpongeExecutorService sync) {
-		PluginContainer plugin = Sponge.getPluginManager().fromInstance(this).get();
-		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(plugin, async));
-		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(plugin, sync));
-		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(plugin));
+		sync.execute(() -> {
+			PluginContainer plugin = Sponge.getPluginManager().fromInstance(LiteNamelessSponge.this).get();
+			getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(plugin, async));
+			getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(plugin, sync));
+			getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(plugin));
+		});
 	}
 	
 	@Listener
-	private void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
+	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
 		Logger logger = Logger.getLogger("LiteNameless");
 		logger.setParent(Logger.getLogger(""));
 		core = new LiteNameless(logger, folder, this);
-		Sponge.getCommandManager().register(this, CommandSpec.builder().executor(this).build(), "litenameless");		
+		Sponge.getCommandManager().register(this, this, "litenameless");		
 	}
 	
 	@Listener
-    private void onDisable(@SuppressWarnings("unused") GameStoppingServerEvent evt) {
+    public void onDisable(@SuppressWarnings("unused") GameStoppingServerEvent evt) {
+		AsyncExecution async = getRegistry().getRegistration(AsyncExecution.class);
+		if (async instanceof Shutdownable) {
+			((Shutdownable) async).shutdownAndWait();
+		}
         core.close();
         core = null;
     }
 	
-	@Override
-	public CommandResult execute(CommandSource sender, CommandContext args) throws CommandException {
-		core.executeCommand(new WrappedSender(sender), args.getAll("").toArray(new String[] {}));
-		return CommandResult.success();
-	}
-	
 	@Listener
-	private void onJoin(ClientConnectionEvent.Join evt) {
+	public void onJoin(ClientConnectionEvent.Join evt) {
 		core.login(new WrappedPlayer(evt.getTargetEntity()));
 	}
-
-}
-
-class WrappedSender implements SenderWrapper {
 	
-	final CommandSource sender;
-	
-	WrappedSender(CommandSource sender) {
-		this.sender = sender;
-	}
-
 	@Override
-	public boolean hasPermission(String permission) {
-		return sender.hasPermission(permission);
+	protected boolean execute(CommandSource sender, String[] args) {
+		return core.executeCommand(new WrappedSender(sender), args);
 	}
 
-	@Override
-	public void sendMessage(String message) {
-		sender.sendMessage(SpongeUtil.colour(message));
-	}
-	
-}
-
-class WrappedPlayer extends WrappedSender implements PlayerWrapper {
-
-	WrappedPlayer(Player sender) {
-		super(sender);
-	}
-
-	@Override
-	public UUID getUniqueId() {
-		return ((Player) sender).getUniqueId();
-	}
-
-	@Override
-	public String getName() {
-		return ((Player) sender).getName();
-	}
-	
 }

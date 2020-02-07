@@ -1,0 +1,7 @@
+name: ${plugin.name}
+main: space.arim.nameless.spigot.LiteNamelessSpigot
+version: ${plugin.version}
+author: ${plugin.author}
+website: ${plugin.url}
+description: ${plugin.description}
+depend: [ArimAPI]
