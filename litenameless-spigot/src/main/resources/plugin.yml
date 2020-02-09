@@ -5,3 +5,8 @@ author: ${plugin.author}
 website: ${plugin.url}
 description: ${plugin.description}
 depend: [ArimAPI]
+
+commands:
+  litenameless:
+    description: Everything related to LiteNameless
+    usage: /litenameless <arguments>
