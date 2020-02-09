@@ -70,7 +70,7 @@ public class LiteNamelessSponge extends DecoupledCommand implements ServerEnv {
 	
 	@Listener
 	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
-		Logger logger = Logger.getLogger("LiteNameless");
+		Logger logger = Logger.getLogger("${plugin.spongeid}");
 		logger.setParent(Logger.getLogger(""));
 		core = new LiteNameless(logger, folder, this);
 		Sponge.getCommandManager().register(this, this, "litenameless");		
