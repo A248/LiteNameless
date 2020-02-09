@@ -18,11 +18,8 @@
  */
 package space.arim.nameless.spigot;
 
-import java.util.UUID;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -34,12 +31,9 @@ import space.arim.api.concurrent.SyncExecution;
 import space.arim.api.server.bukkit.DefaultAsyncExecution;
 import space.arim.api.server.bukkit.DefaultSyncExecution;
 import space.arim.api.server.bukkit.DefaultUUIDResolver;
-import space.arim.api.server.bukkit.SpigotUtil;
 import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;
-import space.arim.namelessplugin.api.PlayerWrapper;
-import space.arim.namelessplugin.api.SenderWrapper;
 import space.arim.namelessplugin.api.ServerEnv;
 
 public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
@@ -67,51 +61,12 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEn
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		core.executeCommand(new WrappedSender(sender), args);
-		return true;
+		return core.executeCommand(new WrappedSender(sender), args);
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onJoin(PlayerJoinEvent evt) {
 		core.login(new WrappedPlayer(evt.getPlayer()));
-	}
-	
-}
-
-class WrappedSender implements SenderWrapper {
-	
-	final CommandSender sender;
-	
-	WrappedSender(CommandSender sender) {
-		this.sender = sender;
-	}
-	
-	@Override
-	public boolean hasPermission(String permission) {
-		return sender.hasPermission(permission);
-	}
-	
-	@Override
-	public void sendMessage(String message) {
-		sender.sendMessage(SpigotUtil.colour(message));
-	}
-	
-}
-
-class WrappedPlayer extends WrappedSender implements PlayerWrapper {
-
-	WrappedPlayer(Player sender) {
-		super(sender);
-	}
-
-	@Override
-	public UUID getUniqueId() {
-		return ((Player) sender).getUniqueId();
-	}
-	
-	@Override
-	public String getName() {
-		return ((Player) sender).getName();
 	}
 	
 }
