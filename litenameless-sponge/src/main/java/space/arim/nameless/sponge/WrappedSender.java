@@ -20,7 +20,7 @@ package space.arim.nameless.sponge;
 
 import org.spongepowered.api.command.CommandSource;
 
-import space.arim.api.server.sponge.SpongeUtil;
+import space.arim.api.platform.sponge.SpongeMessages;
 
 import space.arim.namelessplugin.api.SenderWrapper;
 
@@ -39,7 +39,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(SpongeUtil.colour(message));
+		sender.sendMessage(SpongeMessages.get().colour(message));
 	}
 	
 }
