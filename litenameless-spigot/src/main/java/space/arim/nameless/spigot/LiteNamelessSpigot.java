@@ -28,9 +28,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.server.bukkit.DefaultAsyncExecution;
-import space.arim.api.server.bukkit.DefaultSyncExecution;
-import space.arim.api.server.bukkit.DefaultUUIDResolver;
+import space.arim.api.platform.spigot.DefaultAsyncExecution;
+import space.arim.api.platform.spigot.DefaultSyncExecution;
+import space.arim.api.platform.spigot.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;

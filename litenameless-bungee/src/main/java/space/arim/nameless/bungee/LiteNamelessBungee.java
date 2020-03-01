@@ -31,10 +31,10 @@ import net.md_5.bungee.event.EventPriority;
 
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.server.bungee.BungeeUtil;
-import space.arim.api.server.bungee.DefaultAsyncExecution;
-import space.arim.api.server.bungee.DefaultSyncExecution;
-import space.arim.api.server.bungee.DefaultUUIDResolver;
+import space.arim.api.platform.bungee.BungeeMessages;
+import space.arim.api.platform.bungee.DefaultAsyncExecution;
+import space.arim.api.platform.bungee.DefaultSyncExecution;
+import space.arim.api.platform.bungee.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;
@@ -95,7 +95,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(BungeeUtil.colour(message));
+		sender.sendMessage(BungeeMessages.get().colour(message));
 	}
 	
 }

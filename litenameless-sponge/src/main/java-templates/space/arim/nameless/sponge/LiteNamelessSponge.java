@@ -40,10 +40,10 @@ import com.google.inject.Inject;
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.Shutdownable;
 import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.server.sponge.DecoupledCommand;
-import space.arim.api.server.sponge.DefaultAsyncExecution;
-import space.arim.api.server.sponge.DefaultSyncExecution;
-import space.arim.api.server.sponge.DefaultUUIDResolver;
+import space.arim.api.platform.sponge.DecoupledCommand;
+import space.arim.api.platform.sponge.DefaultAsyncExecution;
+import space.arim.api.platform.sponge.DefaultSyncExecution;
+import space.arim.api.platform.sponge.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
 import space.arim.namelessplugin.LiteNameless;

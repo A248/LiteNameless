@@ -20,7 +20,7 @@ package space.arim.nameless.spigot;
 
 import org.bukkit.command.CommandSender;
 
-import space.arim.api.server.bukkit.SpigotUtil;
+import space.arim.api.platform.spigot.SpigotMessages;
 
 import space.arim.namelessplugin.api.SenderWrapper;
 
@@ -39,7 +39,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.sendMessage(SpigotUtil.colour(message));
+		sender.spigot().sendMessage(SpigotMessages.get().colour(message));
 	}
 	
 }
