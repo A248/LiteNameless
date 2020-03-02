@@ -42,20 +42,6 @@
 				<configuration>
 					<outputDirectory>${project.build.directory}/shared-resources</outputDirectory>
 					<excludeTransitive>true</excludeTransitive>
-					<artifactItems>
-						<artifactItem>
-							<groupId>space.arim</groupId>
-							<artifactId>litenameless-resources</artifactId>
-							<version>${project.version}</version>
-							<classifier>resources</classifier>
-						</artifactItem>
-						<artifactItem>
-							<groupId>space.arim</groupId>
-							<artifactId>universal-gpl</artifactId>
-							<version>${universal.version}</version>
-							<classifier>resources</classifier>
-						</artifactItem>
-					</artifactItems>
 				</configuration>
 				<executions>
 					<execution>
@@ -66,7 +52,10 @@
 						<phase>generate-resources</phase>
 						<configuration>
 							<includes>LICENSE.txt,config.yml</includes>
-							<classifier>resources</classifier>
+							<includeGroupIds>space.arim</includeGroupIds>
+							<includeArtifactIds>universal-gpl,litenameless-resources</includeArtifactIds>
+							<includeScope>provided</includeScope>
+							<includeTypes>zip</includeTypes>
 						</configuration>
 					</execution>
 				</executions>
@@ -98,7 +87,6 @@
 		<dependency>
 			<groupId>space.arim</groupId>
 			<artifactId>universal-gpl</artifactId>
-			<classifier>resources</classifier>
 			<type>zip</type>
 			<optional>true</optional>
 			<scope>provided</scope>
@@ -106,9 +94,7 @@
 		<dependency>
 			<groupId>space.arim</groupId>
 			<artifactId>litenameless-resources</artifactId>
-			<classifier>resources</classifier>
 			<type>zip</type>
-			<optional>true</optional>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
