@@ -25,7 +25,7 @@
     	<core.author>A248</core.author>
     	<universal.version>0.6.9-SNAPSHOT</universal.version>
     	<arimapi.version>0.7.1-SNAPSHOT</arimapi.version>
-    	<spigot.version>1.15.1-R0.1-SNAPSHOT</spigot.version>
+    	<spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
 		<bungeecord.version>1.15-SNAPSHOT</bungeecord.version>
 		<sponge.version>7.1.0</sponge.version>
 		
