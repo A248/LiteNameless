@@ -39,7 +39,7 @@ class WrappedSender implements SenderWrapper {
 	
 	@Override
 	public void sendMessage(String message) {
-		sender.spigot().sendMessage(SpigotMessages.get().colour(message));
+		sender.sendMessage(SpigotMessages.get().transformFormattingCodes(message));
 	}
 	
 }
