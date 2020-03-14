@@ -78,13 +78,43 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>aggregate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>aggregate</goal>
+							<goal>aggregate-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
 	</build>
 	
 	<modules>
+		<module>litenameless-api</module>
 		<module>litenameless-core</module>
 		<module>litenameless-resources</module>
-		<module>litenameless-spigot</module>
 		<module>litenameless-bungee</module>
+		<module>litenameless-spigot</module>
 		<module>litenameless-sponge</module>
 	</modules>
 	
@@ -119,6 +149,11 @@
 				<version>${project.version}</version>
 				<type>zip</type>
 				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>space.arim</groupId>
+				<artifactId>litenameless-api</artifactId>
+				<version>${project.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>space.arim</groupId>
