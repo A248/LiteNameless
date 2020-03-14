@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>litenameless-core</artifactId>
-	<name>${project.parent.name}</name>
+	<name>LiteNameless-Core</name>
 	<description>${project.parent.description}</description>
 	
 	<build>
