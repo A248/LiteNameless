@@ -36,7 +36,7 @@ import space.arim.api.platform.spigot.DefaultSyncExecution;
 import space.arim.api.platform.spigot.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.core.LiteNamelessCore;
+import space.arim.nameless.core.LiteNamelessCore;
 
 public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	

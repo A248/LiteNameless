@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 
-import space.arim.namelessplugin.api.PlayerWrapper;
+import space.arim.nameless.api.PlayerWrapper;
 
 class WrappedPlayer extends WrappedSender implements PlayerWrapper {
 

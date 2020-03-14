@@ -36,7 +36,7 @@ import space.arim.api.platform.bungee.DefaultSyncExecution;
 import space.arim.api.platform.bungee.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.core.LiteNamelessCore;
+import space.arim.nameless.core.LiteNamelessCore;
 
 public class LiteNamelessBungee extends Plugin implements Listener {
 	

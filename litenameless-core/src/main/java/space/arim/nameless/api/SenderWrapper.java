@@ -16,7 +16,7 @@
  * along with LiteNameless-core. If not, see <https://www.gnu.org/licenses/>
  * and navigate to version 3 of the GNU General Public License.
  */
-package space.arim.namelessplugin.api;
+package space.arim.nameless.api;
 
 /**
  * A command sender which is not specific to BungeeCord, Spigot, or Sponge. <br>

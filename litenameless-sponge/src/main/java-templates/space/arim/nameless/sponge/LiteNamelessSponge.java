@@ -50,7 +50,7 @@ import space.arim.api.platform.sponge.DefaultSyncExecution;
 import space.arim.api.platform.sponge.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.core.LiteNamelessCore;
+import space.arim.nameless.core.LiteNamelessCore;
 
 @Plugin(id = "${plugin.spongeid}", name = "${plugin.name}", version = "${plugin.version}", authors = {"${plugin.author}"}, description = "${plugin.description}", url = "${plugin.url}", dependencies = {@Dependency(id = "arimapiplugin")})
 public class LiteNamelessSponge extends DecoupledCommand {

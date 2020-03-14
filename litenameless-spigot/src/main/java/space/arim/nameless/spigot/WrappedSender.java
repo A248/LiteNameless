@@ -22,7 +22,7 @@ import org.bukkit.command.CommandSender;
 
 import space.arim.api.platform.spigot.SpigotMessages;
 
-import space.arim.namelessplugin.api.SenderWrapper;
+import space.arim.nameless.api.SenderWrapper;
 
 class WrappedSender implements SenderWrapper {
 	

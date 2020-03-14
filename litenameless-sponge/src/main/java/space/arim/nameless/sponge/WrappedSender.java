@@ -22,7 +22,7 @@ import org.spongepowered.api.command.CommandSource;
 
 import space.arim.api.platform.sponge.SpongeMessages;
 
-import space.arim.namelessplugin.api.SenderWrapper;
+import space.arim.nameless.api.SenderWrapper;
 
 class WrappedSender implements SenderWrapper {
 	

@@ -16,7 +16,7 @@
  * along with LiteNameless-core. If not, see <https://www.gnu.org/licenses/>
  * and navigate to version 3 of the GNU General Public License.
  */
-package space.arim.namelessplugin.api;
+package space.arim.nameless.api;
 
 import space.arim.universal.registry.Registry;
 import space.arim.universal.util.AutoClosable;

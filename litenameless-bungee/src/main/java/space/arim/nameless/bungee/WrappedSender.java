@@ -22,7 +22,7 @@ import net.md_5.bungee.api.CommandSender;
 
 import space.arim.api.platform.bungee.BungeeMessages;
 
-import space.arim.namelessplugin.api.SenderWrapper;
+import space.arim.nameless.api.SenderWrapper;
 
 class WrappedSender implements SenderWrapper {
 	

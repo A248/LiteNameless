@@ -16,7 +16,7 @@
  * along with LiteNameless-core. If not, see <https://www.gnu.org/licenses/>
  * and navigate to version 3 of the GNU General Public License.
  */
-package space.arim.namelessplugin.core;
+package space.arim.nameless.core;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -32,9 +32,9 @@ import space.arim.universal.registry.Registry;
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.util.log.LoggerConverter;
 
-import space.arim.namelessplugin.api.LiteNameless;
-import space.arim.namelessplugin.api.PlayerWrapper;
-import space.arim.namelessplugin.api.SenderWrapper;
+import space.arim.nameless.api.LiteNameless;
+import space.arim.nameless.api.PlayerWrapper;
+import space.arim.nameless.api.SenderWrapper;
 
 /**
  * Main LiteNameless implementation. <br>

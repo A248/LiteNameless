@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import org.spongepowered.api.entity.living.player.Player;
 
-import space.arim.namelessplugin.api.PlayerWrapper;
+import space.arim.nameless.api.PlayerWrapper;
 
 class WrappedPlayer extends WrappedSender implements PlayerWrapper {
 
