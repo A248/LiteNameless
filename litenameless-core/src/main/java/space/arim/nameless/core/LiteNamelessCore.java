@@ -58,10 +58,17 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	private volatile NamelessAPI nameless;
 	
 	/**
-	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}.
+	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}. <br>
+	 * <br>
+	 * For the plugin information, programmers may use: <br>
+	 * * {@link space.arim.api.platform.bungee.BungeePlatform#convertPluginInfo(Plugin) BungeePlatform.get().convertPluginInfo(Plugin)} <br>
+	 * * {@link space.arim.api.platform.spigot.SpigotPlatform#convertPluginInfo(Plugin) SpigotPlatform.get().convertPluginInfo(Plugin)} <br>
+	 * * {@link space.arim.api.platform.sponge.SpongePlatform#convertPluginInfo(PluginContainer) SpongePlatform.get().convertPluginInfo(PluginContainer)} <br>
+	 * depending on the platform in question.
 	 * 
 	 * @param logger the logger
 	 * @param folder the config folder
+	 * @param information the plugin information to use
 	 * @param registry the registry
 	 */
 	public LiteNamelessCore(Logger logger, File folder, PluginInformation information, Registry registry) {
@@ -73,13 +80,14 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	}
 	
 	/**
-	 * See {@link #LiteNamelessCore(Logger, File, Registry)} <br>
+	 * See {@link #LiteNamelessCore(Logger, File, Registry)} first <br>
 	 * <br>
 	 * Whenever possible, slf4j should be preferred and used instead. <br>
 	 * This is an alternative constructor used to maintain support for the JUL logging framework.
 	 * 
 	 * @param logger a JUL logger
 	 * @param folder the config folder
+	 * @param information the plugin information to use
 	 * @param registry the registry
 	 */
 	public LiteNamelessCore(java.util.logging.Logger logger, File folder, PluginInformation information, Registry registry) {
