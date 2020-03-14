@@ -37,6 +37,9 @@ import org.spongepowered.api.scheduler.SynchronousExecutor;
 
 import com.google.inject.Inject;
 
+import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.UniversalRegistry;
+
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.Shutdownable;
 import space.arim.api.concurrent.SyncExecution;
@@ -46,17 +49,16 @@ import space.arim.api.platform.sponge.DefaultSyncExecution;
 import space.arim.api.platform.sponge.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.LiteNameless;
-import space.arim.namelessplugin.api.ServerEnv;
+import space.arim.namelessplugin.LiteNamelessCore;
 
 @Plugin(id = "${plugin.spongeid}", name = "${plugin.name}", version = "${plugin.version}", authors = {"${plugin.author}"}, description = "${plugin.description}", url = "${plugin.url}", dependencies = {@Dependency(id = "arimapiplugin")})
-public class LiteNamelessSponge extends DecoupledCommand implements ServerEnv {
+public class LiteNamelessSponge extends DecoupledCommand {
 
 	@Inject
 	@ConfigDir(sharedRoot=false)
 	private File folder;
 	
-	private LiteNameless core;
+	private LiteNamelessCore core;
 	
 	@Inject
 	public LiteNamelessSponge(@AsynchronousExecutor SpongeExecutorService async, @SynchronousExecutor SpongeExecutorService sync) {
@@ -68,11 +70,15 @@ public class LiteNamelessSponge extends DecoupledCommand implements ServerEnv {
 		});
 	}
 	
+	private Registry getRegistry() {
+		return UniversalRegistry.get();
+	}
+	
 	@Listener
 	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
 		Logger logger = Logger.getLogger("${plugin.spongeid}");
 		logger.setParent(Logger.getLogger(""));
-		core = new LiteNameless(logger, folder, this);
+		core = new LiteNamelessCore(logger, folder, getRegistry());
 		Sponge.getCommandManager().register(this, this, "litenameless");		
 	}
 	
@@ -86,14 +92,14 @@ public class LiteNamelessSponge extends DecoupledCommand implements ServerEnv {
         core = null;
     }
 	
-	@Listener
-	public void onJoin(ClientConnectionEvent.Join evt) {
-		core.login(new WrappedPlayer(evt.getTargetEntity()));
-	}
-	
 	@Override
 	protected boolean execute(CommandSource sender, String[] args) {
 		return core.executeCommand(new WrappedSender(sender), args);
+	}
+	
+	@Listener
+	public void onJoin(ClientConnectionEvent.Join evt) {
+		core.updateGroupAsync(new WrappedPlayer(evt.getTargetEntity()));
 	}
 
 }

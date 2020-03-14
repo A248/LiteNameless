@@ -26,6 +26,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.UniversalRegistry;
+
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.SyncExecution;
 import space.arim.api.platform.spigot.DefaultAsyncExecution;
@@ -33,12 +36,11 @@ import space.arim.api.platform.spigot.DefaultSyncExecution;
 import space.arim.api.platform.spigot.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.LiteNameless;
-import space.arim.namelessplugin.api.ServerEnv;
+import space.arim.namelessplugin.LiteNamelessCore;
 
-public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEnv {
+public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
-	private LiteNameless core;
+	private LiteNamelessCore core;
 	
 	@Override
 	public void onLoad() {
@@ -47,9 +49,13 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEn
 		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
 	}
 	
+	private Registry getRegistry() {
+		return UniversalRegistry.get();
+	}
+	
 	@Override
 	public void onEnable() {
-		core = new LiteNameless(getLogger(), getDataFolder(), this);
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
 		core.reload();
 	}
 	
@@ -66,7 +72,7 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener, ServerEn
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onJoin(PlayerJoinEvent evt) {
-		core.login(new WrappedPlayer(evt.getPlayer()));
+		core.updateGroupAsync(new WrappedPlayer(evt.getPlayer()));
 	}
 	
 }

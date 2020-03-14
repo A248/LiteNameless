@@ -18,10 +18,7 @@
  */
 package space.arim.nameless.bungee;
 
-import java.util.UUID;
-
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
@@ -29,22 +26,21 @@ import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
+import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.UniversalRegistry;
+
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.platform.bungee.BungeeMessages;
 import space.arim.api.platform.bungee.DefaultAsyncExecution;
 import space.arim.api.platform.bungee.DefaultSyncExecution;
 import space.arim.api.platform.bungee.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
-import space.arim.namelessplugin.LiteNameless;
-import space.arim.namelessplugin.api.PlayerWrapper;
-import space.arim.namelessplugin.api.SenderWrapper;
-import space.arim.namelessplugin.api.ServerEnv;
+import space.arim.namelessplugin.LiteNamelessCore;
 
-public class LiteNamelessBungee extends Plugin implements Listener, ServerEnv {
+public class LiteNamelessBungee extends Plugin implements Listener {
 	
-	private LiteNameless core;
+	private LiteNamelessCore core;
 	
 	@Override
 	public void onLoad() {
@@ -53,9 +49,13 @@ public class LiteNamelessBungee extends Plugin implements Listener, ServerEnv {
 		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
 	}
 	
+	private Registry getRegistry() {
+		return UniversalRegistry.get();
+	}
+	
 	@Override
 	public void onEnable() {
-		core = new LiteNameless(getLogger(), getDataFolder(), this);
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
 		core.reload();
 		getProxy().getPluginManager().registerCommand(this, new Command("litenameless") {
 			
@@ -75,45 +75,7 @@ public class LiteNamelessBungee extends Plugin implements Listener, ServerEnv {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private void onJoin(PostLoginEvent evt) {
-		core.login(new WrappedPlayer(evt.getPlayer()));
-	}
-	
-}
-
-class WrappedSender implements SenderWrapper {
-	
-	final CommandSender sender;
-	
-	WrappedSender(CommandSender sender) {
-		this.sender = sender;
-	}
-
-	@Override
-	public boolean hasPermission(String permission) {
-		return sender.hasPermission(permission);
-	}
-	
-	@Override
-	public void sendMessage(String message) {
-		sender.sendMessage(BungeeMessages.get().colour(message));
-	}
-	
-}
-
-class WrappedPlayer extends WrappedSender implements PlayerWrapper {
-
-	WrappedPlayer(ProxiedPlayer sender) {
-		super(sender);
-	}
-	
-	@Override
-	public UUID getUniqueId() {
-		return ((ProxiedPlayer) sender).getUniqueId();
-	}
-	
-	@Override
-	public String getName() {
-		return ((ProxiedPlayer) sender).getName();
+		core.updateGroupAsync(new WrappedPlayer(evt.getPlayer()));
 	}
 	
 }
