@@ -31,11 +31,13 @@ import space.arim.universal.registry.UniversalRegistry;
 
 import space.arim.api.concurrent.AsyncExecution;
 import space.arim.api.concurrent.SyncExecution;
+import space.arim.api.platform.bungee.BungeePlatform;
 import space.arim.api.platform.bungee.DefaultAsyncExecution;
 import space.arim.api.platform.bungee.DefaultSyncExecution;
 import space.arim.api.platform.bungee.DefaultUUIDResolver;
 import space.arim.api.uuid.UUIDResolver;
 
+import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
 
 public class LiteNamelessBungee extends Plugin implements Listener {
@@ -55,7 +57,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), BungeePlatform.get().convertPluginInfo(this), getRegistry());
 		core.reload();
 		getProxy().getPluginManager().registerCommand(this, new Command("litenameless") {
 			
@@ -65,6 +67,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 			}
 			
 		});
+		getRegistry().register(LiteNameless.class, core);
 	}
 	
 	@Override

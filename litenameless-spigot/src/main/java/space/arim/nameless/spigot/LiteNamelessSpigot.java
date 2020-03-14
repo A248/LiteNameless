@@ -34,8 +34,10 @@ import space.arim.api.concurrent.SyncExecution;
 import space.arim.api.platform.spigot.DefaultAsyncExecution;
 import space.arim.api.platform.spigot.DefaultSyncExecution;
 import space.arim.api.platform.spigot.DefaultUUIDResolver;
+import space.arim.api.platform.spigot.SpigotPlatform;
 import space.arim.api.uuid.UUIDResolver;
 
+import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
 
 public class LiteNamelessSpigot extends JavaPlugin implements Listener {
@@ -55,8 +57,9 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), SpigotPlatform.get().convertPluginInfo(this), getRegistry());
 		core.reload();
+		getRegistry().register(LiteNameless.class, core);
 	}
 	
 	@Override

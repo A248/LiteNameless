@@ -48,8 +48,10 @@ import space.arim.api.platform.sponge.DecoupledCommand;
 import space.arim.api.platform.sponge.DefaultAsyncExecution;
 import space.arim.api.platform.sponge.DefaultSyncExecution;
 import space.arim.api.platform.sponge.DefaultUUIDResolver;
+import space.arim.api.platform.sponge.SpongePlatform;
 import space.arim.api.uuid.UUIDResolver;
 
+import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
 
 @Plugin(id = "${plugin.spongeid}", name = "${plugin.name}", version = "${plugin.version}", authors = {"${plugin.author}"}, description = "${plugin.description}", url = "${plugin.url}", dependencies = {@Dependency(id = "arimapiplugin")})
@@ -67,11 +69,15 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	@Inject
 	public LiteNamelessSponge(@AsynchronousExecutor SpongeExecutorService async, @SynchronousExecutor SpongeExecutorService sync) {
 		sync.execute(() -> {
-			PluginContainer plugin = Sponge.getPluginManager().fromInstance(LiteNamelessSponge.this).get();
+			PluginContainer plugin = getPlugin();
 			getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(plugin, async));
 			getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(plugin, sync));
 			getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(plugin));
 		});
+	}
+	
+	private PluginContainer getPlugin() {
+		return Sponge.getPluginManager().fromInstance(LiteNamelessSponge.this).get();
 	}
 	
 	private Registry getRegistry() {
@@ -80,8 +86,9 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	
 	@Listener
 	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
-		core = new LiteNamelessCore(logger, folder, getRegistry());
-		Sponge.getCommandManager().register(this, this, "litenameless");		
+		core = new LiteNamelessCore(logger, folder, SpongePlatform.get().convertPluginInfo(getPlugin()), getRegistry());
+		Sponge.getCommandManager().register(this, this, "litenameless");
+		getRegistry().register(LiteNameless.class, core);
 	}
 	
 	@Listener

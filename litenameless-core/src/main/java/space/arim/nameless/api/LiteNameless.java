@@ -18,6 +18,7 @@
  */
 package space.arim.nameless.api;
 
+import space.arim.universal.registry.Registrable;
 import space.arim.universal.registry.Registry;
 import space.arim.universal.util.AutoClosable;
 
@@ -30,7 +31,7 @@ import space.arim.universal.util.AutoClosable;
  * @author A248
  *
  */
-public interface LiteNameless extends AutoClosable {
+public interface LiteNameless extends Registrable, AutoClosable {
 	
 	/**
 	 * Reloads the plugin

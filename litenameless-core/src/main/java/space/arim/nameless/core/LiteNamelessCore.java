@@ -28,8 +28,11 @@ import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 
 import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.RegistryPriority;
 
 import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.platform.PlatformRegistrable;
+import space.arim.api.platform.PluginInformation;
 import space.arim.api.util.log.LoggerConverter;
 
 import space.arim.nameless.api.LiteNameless;
@@ -44,7 +47,7 @@ import space.arim.nameless.api.SenderWrapper;
  * @author A248
  *
  */
-public class LiteNamelessCore implements LiteNameless {
+public class LiteNamelessCore extends PlatformRegistrable implements LiteNameless {
 	
 	private final Logger logger;
 	private final Registry registry;
@@ -61,7 +64,8 @@ public class LiteNamelessCore implements LiteNameless {
 	 * @param folder the config folder
 	 * @param registry the registry
 	 */
-	public LiteNamelessCore(Logger logger, File folder, Registry registry) {
+	public LiteNamelessCore(Logger logger, File folder, PluginInformation information, Registry registry) {
+		super(information);
 		this.logger = logger;
 		this.registry = registry;
 		config = new Config(folder);
@@ -78,7 +82,8 @@ public class LiteNamelessCore implements LiteNameless {
 	 * @param folder the config folder
 	 * @param registry the registry
 	 */
-	public LiteNamelessCore(java.util.logging.Logger logger, File folder, Registry registry) {
+	public LiteNamelessCore(java.util.logging.Logger logger, File folder, PluginInformation information, Registry registry) {
+		super(information);
 		this.logger = LoggerConverter.get().convert(logger);
 		this.registry = registry;
 		config = new Config(folder);
@@ -153,6 +158,11 @@ public class LiteNamelessCore implements LiteNameless {
 	
 	Config config() {
 		return config;
+	}
+	
+	@Override
+	public byte getPriority() {
+		return RegistryPriority.LOWER;
 	}
 	
 }
