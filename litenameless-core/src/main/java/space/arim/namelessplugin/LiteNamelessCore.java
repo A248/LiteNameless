@@ -36,6 +36,14 @@ import space.arim.namelessplugin.api.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
 import space.arim.namelessplugin.api.SenderWrapper;
 
+/**
+ * Main LiteNameless implementation. <br>
+ * <br>
+ * {@link #reload()} should be called after construction to load the plugin for the first time.
+ * 
+ * @author A248
+ *
+ */
 public class LiteNamelessCore implements LiteNameless {
 	
 	private final Logger logger;
@@ -46,6 +54,13 @@ public class LiteNamelessCore implements LiteNameless {
 	
 	private volatile NamelessAPI nameless;
 	
+	/**
+	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}.
+	 * 
+	 * @param logger the logger
+	 * @param folder the config folder
+	 * @param registry the registry
+	 */
 	public LiteNamelessCore(Logger logger, File folder, Registry registry) {
 		this.logger = logger;
 		this.registry = registry;
@@ -53,6 +68,16 @@ public class LiteNamelessCore implements LiteNameless {
 		commands = new Commands(this);
 	}
 	
+	/**
+	 * See {@link #LiteNamelessCore(Logger, File, Registry)} <br>
+	 * <br>
+	 * Whenever possible, slf4j should be preferred and used instead. <br>
+	 * This is an alternative constructor used to maintain support for the JUL logging framework.
+	 * 
+	 * @param logger a JUL logger
+	 * @param folder the config folder
+	 * @param registry the registry
+	 */
 	public LiteNamelessCore(java.util.logging.Logger logger, File folder, Registry registry) {
 		this.logger = LoggerConverter.get().convert(logger);
 		this.registry = registry;
