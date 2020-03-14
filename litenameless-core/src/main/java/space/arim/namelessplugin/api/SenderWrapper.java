@@ -18,10 +18,38 @@
  */
 package space.arim.namelessplugin.api;
 
+/**
+ * A command sender which is not specific to BungeeCord, Spigot, or Sponge. <br>
+ * <br>
+ * Implementations do not need to be castable to {@link PlayerWrapper}.
+ * If the LiteNameless API accepts a SenderWrapper, only SenderWrapper need be implemented. <br>
+ * For example, on Spigot, this is <i>unnecessary</i>: <br>
+ * <code>
+ * CommandSender spigotSender = //...; <br>
+ * SenderWrapper sender = (spigotSender instanceof Player) ? new PlayerWrapperImpl((Player) spigotSender) : new SenderWrapperImpl(spigotSender);
+ * </code>
+ * 
+ * @author A248
+ *
+ */
 public interface SenderWrapper {
 	
+	/**
+	 * Whether the command sender has a specific permission.
+	 * 
+	 * @param permission the permission
+	 * @return true if and only if the sender has the permission
+	 */
 	boolean hasPermission(String permission);
 	
+	/**
+	 * Sends a message to the command sender. <br>
+	 * <br>
+	 * Implementations <b>MUST</b> parse colouring and styling codes before sending the message.
+	 * The messages' formatting follows the '{@literal &}' formatting code character.
+	 * 
+	 * @param message the message with '{@literal &}' formatting codes
+	 */
 	void sendMessage(String message);
 	
 }

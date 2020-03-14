@@ -20,10 +20,26 @@ package space.arim.namelessplugin.api;
 
 import java.util.UUID;
 
+/**
+ * A command sender which is specifically a player.
+ * 
+ * @author A248
+ *
+ */
 public interface PlayerWrapper extends SenderWrapper {
-
+	
+	/**
+	 * Gets the player's UUID
+	 * 
+	 * @return the player's unique user ID (UUID)
+	 */
 	UUID getUniqueId();
 	
+	/**
+	 * Gets the player's name, not the display name, but the actual name.
+	 * 
+	 * @return the player's real name
+	 */
 	String getName();
 	
 }
