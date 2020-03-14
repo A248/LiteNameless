@@ -18,12 +18,14 @@
  */
 package space.arim.namelessplugin;
 
+import java.io.File;
+
 import space.arim.api.config.SimpleConfig;
 
 class Config extends SimpleConfig {
-
-	Config(LiteNameless core) {
-		super(core.folder(), "config.yml", "do-not-touch-version");
+	
+	Config(File folder) {
+		super(folder, "config.yml", "do-not-touch-version");
 	}
 	
 }

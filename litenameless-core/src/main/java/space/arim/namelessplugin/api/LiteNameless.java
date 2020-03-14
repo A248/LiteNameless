@@ -19,18 +19,20 @@
 package space.arim.namelessplugin.api;
 
 import space.arim.universal.registry.Registry;
-import space.arim.universal.registry.RequireRegistration;
-import space.arim.universal.registry.UniversalRegistry;
+import space.arim.universal.util.AutoClosable;
 
-import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.uuid.UUIDResolver;
-
-public interface ServerEnv {
+public interface LiteNameless extends AutoClosable {
 	
-	@RequireRegistration({AsyncExecution.class, SyncExecution.class, UUIDResolver.class})
-	default Registry getRegistry() {
-		return UniversalRegistry.get();
-	}
+	void reload();
+	
+	boolean enabled();
+	
+	Registry getRegistry();
+	
+	boolean executeCommand(SenderWrapper player, String[] args);
+	
+	void updateGroup(PlayerWrapper player);
+	
+	void updateGroupAsync(PlayerWrapper player);
 	
 }

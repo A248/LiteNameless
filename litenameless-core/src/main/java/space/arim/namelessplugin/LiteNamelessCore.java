@@ -27,41 +27,32 @@ import java.util.logging.Logger;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 
-import space.arim.universal.util.AutoClosable;
+import space.arim.universal.registry.Registry;
 
 import space.arim.api.concurrent.AsyncExecution;
 
+import space.arim.namelessplugin.api.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
 import space.arim.namelessplugin.api.SenderWrapper;
-import space.arim.namelessplugin.api.ServerEnv;
 
-public class LiteNameless implements AutoClosable {
+public class LiteNamelessCore implements LiteNameless {
 	
 	private final Logger logger;
-	private final File folder;
-	private final ServerEnv env;
+	private final Registry registry;
 	
 	private final Config config;
 	private final Commands commands;
 	
-	private NamelessAPI nameless;
+	private volatile NamelessAPI nameless;
 	
-	public LiteNameless(Logger logger, File folder, ServerEnv env) {
+	public LiteNamelessCore(Logger logger, File folder, Registry registry) {
 		this.logger = logger;
-		this.folder = folder;
-		this.env = env;
-		config = new Config(this);
+		this.registry = registry;
+		config = new Config(folder);
 		commands = new Commands(this);
 	}
 	
-	Logger logger() {
-		return logger;
-	}
-	
-	File folder() {
-		return folder;
-	}
-	
+	@Override
 	public void reload() {
 		config.reload();
 		if (config.getBoolean("enable-plugin")) {
@@ -73,24 +64,36 @@ public class LiteNameless implements AutoClosable {
 		}
 	}
 	
+	@Override
+	public boolean enabled() {
+		return nameless != null && config.getBoolean("enable-plugin");
+	}
+	
+	@Override
+	public Registry getRegistry() {
+		return registry;
+	}
+	
+	@Override
 	public boolean executeCommand(SenderWrapper player, String[] args) {
 		return commands.executeCommand(player, args);
 	}
 	
-	public void login(PlayerWrapper player) {
-		if (nameless != null) {
-			env.getRegistry().getRegistration(AsyncExecution.class).execute(() -> {
-				updateUsername(player.getUniqueId(), player.getName());
-				updateGroup(player);
-			});
+	@Override
+	public void updateGroupAsync(PlayerWrapper player) {
+		if (enabled()) {
+			getRegistry().getRegistration(AsyncExecution.class).execute(() -> directUpdateGroup(player));
 		}
 	}
 	
-	private void updateUsername(UUID uuid, String name) {
-		//logger().log(Level.WARNING, "Failed to update username for " + uuid + " / " + name, ex);
+	@Override
+	public void updateGroup(PlayerWrapper player) {
+		if (enabled()) {
+			directUpdateGroup(player);
+		}
 	}
 	
-	private void updateGroup(PlayerWrapper player) {
+	private void directUpdateGroup(PlayerWrapper player) {
 		int groupId = getGroup(player);
 		if (groupId != -1) {
 			setGroup(player.getUniqueId(), groupId);
@@ -107,16 +110,12 @@ public class LiteNameless implements AutoClosable {
 		return groupId;
 	}
 	
-	void setGroup(UUID uuid, int groupId) {
+	private void setGroup(UUID uuid, int groupId) {
 		try {
 			nameless.getPlayer(uuid).setGroup(groupId);
 		} catch (NamelessException ex) {
 			logger.log(Level.WARNING, "Failed to set group for " + uuid + " to " + groupId, ex);
 		}
-	}
-	
-	ServerEnv env() {
-		return env;
 	}
 	
 	Config config() {

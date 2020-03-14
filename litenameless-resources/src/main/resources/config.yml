@@ -8,11 +8,6 @@ ranks-order:
     - 2
 messages:
   permission: '&cSorry, you cannot use this.'
-  usage: '&cUsage: /litenameless &e<reload|setgroup>&c.'
+  usage: '&cUsage: /litenameless &e<reload>&c.'
   reload: '&aReloaded LiteNameless!'
-  setgroup:
-    usage: '&cUsage /litenameless setgroup &e<player> <group_id>&c.'
-    invalid-player: '&cError! That player is not online.'
-    invalid-number: '&cInvalid number specified.'
-    complete: '&aSet group of &5%TARGET%&a to &e%GROUP%&a.'
 do-not-touch-version: 1
