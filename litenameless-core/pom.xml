@@ -20,6 +20,10 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>com.namelessmc</groupId>
+			<artifactId>NamelessAPI</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>space.arim</groupId>
 			<artifactId>arimapi-core</artifactId>
 		</dependency>
