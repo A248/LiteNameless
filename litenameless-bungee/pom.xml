@@ -65,6 +65,7 @@
 							<artifactSet>
 								<includes>
 									<include>space.arim:litenameless-core</include>
+									<include>space.arim:litenameless-api</include>
 								</includes>
 							</artifactSet>
 						</configuration>
