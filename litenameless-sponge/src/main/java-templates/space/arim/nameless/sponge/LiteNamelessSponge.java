@@ -19,7 +19,8 @@
 package space.arim.nameless.sponge;
 
 import java.io.File;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
 
 import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
@@ -58,6 +59,9 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	@ConfigDir(sharedRoot=false)
 	private File folder;
 	
+	@Inject
+	private Logger logger;
+	
 	private LiteNamelessCore core;
 	
 	@Inject
@@ -76,8 +80,6 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	
 	@Listener
 	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
-		Logger logger = Logger.getLogger("${plugin.spongeid}");
-		logger.setParent(Logger.getLogger(""));
 		core = new LiteNamelessCore(logger, folder, getRegistry());
 		Sponge.getCommandManager().register(this, this, "litenameless");		
 	}

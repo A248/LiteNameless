@@ -21,8 +21,8 @@ package space.arim.namelessplugin;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
@@ -30,6 +30,7 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import space.arim.universal.registry.Registry;
 
 import space.arim.api.concurrent.AsyncExecution;
+import space.arim.api.util.log.LoggerConverter;
 
 import space.arim.namelessplugin.api.LiteNameless;
 import space.arim.namelessplugin.api.PlayerWrapper;
@@ -52,6 +53,13 @@ public class LiteNamelessCore implements LiteNameless {
 		commands = new Commands(this);
 	}
 	
+	public LiteNamelessCore(java.util.logging.Logger logger, File folder, Registry registry) {
+		this.logger = LoggerConverter.get().convert(logger);
+		this.registry = registry;
+		config = new Config(folder);
+		commands = new Commands(this);
+	}
+	
 	@Override
 	public void reload() {
 		config.reload();
@@ -59,7 +67,7 @@ public class LiteNamelessCore implements LiteNameless {
 			try {
 				nameless = new NamelessAPI(config.getString("settings.host"), config.getString("settings.api-key"), false);
 			} catch (MalformedURLException ex) {
-				logger.log(Level.WARNING, "Could not initialise API! Are you sure your host and api key settings are correct?", ex);
+				logger.warn("Could not initialise API! Are you sure your host and api key settings are correct?", ex);
 			}
 		}
 	}
@@ -114,7 +122,7 @@ public class LiteNamelessCore implements LiteNameless {
 		try {
 			nameless.getPlayer(uuid).setGroup(groupId);
 		} catch (NamelessException ex) {
-			logger.log(Level.WARNING, "Failed to set group for " + uuid + " to " + groupId, ex);
+			logger.warn("Failed to set group for " + uuid + " to " + groupId, ex);
 		}
 	}
 	
