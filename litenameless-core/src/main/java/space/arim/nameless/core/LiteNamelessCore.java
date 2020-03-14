@@ -80,7 +80,7 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	}
 	
 	/**
-	 * See {@link #LiteNamelessCore(Logger, File, Registry)} first <br>
+	 * See {@link #LiteNamelessCore(Logger, File, PluginInformation, Registry)} first <br>
 	 * <br>
 	 * Whenever possible, slf4j should be preferred and used instead. <br>
 	 * This is an alternative constructor used to maintain support for the JUL logging framework.
