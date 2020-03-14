@@ -10,7 +10,7 @@
 	</parent>
 	
 	<artifactId>litenameless-resources</artifactId>
-	<name>LiteNameless-resources</name>
+	<name>LiteNameless-Resources</name>
 	<description>Config.yml for LiteNameless.</description>
 	<packaging>pom</packaging>
 	
