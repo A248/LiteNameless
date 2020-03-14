@@ -16,7 +16,7 @@
  * along with LiteNameless-core. If not, see <https://www.gnu.org/licenses/>
  * and navigate to version 3 of the GNU General Public License.
  */
-package space.arim.namelessplugin;
+package space.arim.namelessplugin.core;
 
 import java.io.File;
 import java.net.MalformedURLException;
