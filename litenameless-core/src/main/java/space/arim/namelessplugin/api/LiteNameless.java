@@ -67,20 +67,19 @@ public interface LiteNameless extends AutoClosable {
 	boolean executeCommand(SenderWrapper player, String[] args);
 	
 	/**
-	 * Updates a player's group by scanning the group ID's specified in the config.yml
-	 * and connecting to the website to set the corresponding account's group.
+	 * Same as {@link #updateGroup(PlayerWrapper)} but conducts the operation synchronously. <br>
+	 * <br>
+	 * Most programmers will not need this method, unless calling code is already asynchronous. <br>
+	 * <b>Care should always be taken to ensure IO operations do not run on the main thread</b>
 	 * 
-	 * The plugin automatically updates a player's group on login; however, some programmers may require
-	 * this method if, for example, a player's group changes while they are online.
-	 * 
-	 * @param player
+	 * @param player the wrapped player whose group will be updated
 	 */
-	void updateGroup(PlayerWrapper player);
+	void updateGroupSynchronous(PlayerWrapper player);
 	
 	/**
 	 * Detects a player's group and updates it on the Nameless website. <br>
 	 * <br>
-	 * The plugin automatically updates a player's group on login; however, some programmers may require
+	 * The plugin automatically updates a player's group on login; however, programmers may require
 	 * this method if a player's group changes while they are online. For example, a shop plugin,
 	 * which updates a player's rank ingame, would also want to reload the user's group on the website. <br>
 	 * <br>
@@ -92,10 +91,10 @@ public interface LiteNameless extends AutoClosable {
 	 * 3. The plugin will update the user's group on the Nameless website. <br>
 	 * <br>
 	 * The procedure is done asynchronously blocking the main thread. <br>
-	 * In rare cases, (for example, if calling code is already asynchronous), {@link #updateGroup(PlayerWrapper)} may be used.
+	 * In rare cases, (for example, if calling code is already asynchronous), {@link #updateGroupSynchronous(PlayerWrapper)} may be used.
 	 * 
-	 * @param player a wrapped player
+	 * @param player the wrapped player whose group will be updated
 	 */
-	void updateGroupAsync(PlayerWrapper player);
+	void updateGroup(PlayerWrapper player);
 	
 }

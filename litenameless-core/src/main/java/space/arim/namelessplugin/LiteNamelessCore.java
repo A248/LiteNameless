@@ -113,14 +113,14 @@ public class LiteNamelessCore implements LiteNameless {
 	}
 	
 	@Override
-	public void updateGroupAsync(PlayerWrapper player) {
+	public void updateGroup(PlayerWrapper player) {
 		if (enabled()) {
 			getRegistry().getRegistration(AsyncExecution.class).execute(() -> directUpdateGroup(player));
 		}
 	}
 	
 	@Override
-	public void updateGroup(PlayerWrapper player) {
+	public void updateGroupSynchronous(PlayerWrapper player) {
 		if (enabled()) {
 			directUpdateGroup(player);
 		}

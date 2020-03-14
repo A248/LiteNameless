@@ -101,7 +101,7 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	
 	@Listener
 	public void onJoin(ClientConnectionEvent.Join evt) {
-		core.updateGroupAsync(new WrappedPlayer(evt.getTargetEntity()));
+		core.updateGroup(new WrappedPlayer(evt.getTargetEntity()));
 	}
 
 }

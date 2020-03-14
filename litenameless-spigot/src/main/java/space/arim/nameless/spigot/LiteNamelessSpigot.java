@@ -72,7 +72,7 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
 	private void onJoin(PlayerJoinEvent evt) {
-		core.updateGroupAsync(new WrappedPlayer(evt.getPlayer()));
+		core.updateGroup(new WrappedPlayer(evt.getPlayer()));
 	}
 	
 }

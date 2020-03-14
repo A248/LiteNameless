@@ -75,7 +75,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	private void onJoin(PostLoginEvent evt) {
-		core.updateGroupAsync(new WrappedPlayer(evt.getPlayer()));
+		core.updateGroup(new WrappedPlayer(evt.getPlayer()));
 	}
 	
 }
