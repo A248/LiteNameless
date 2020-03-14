@@ -1,21 +1,18 @@
+enable-plugin: false
 settings:
-  api:
-    host: 'http(s)://example.com'
-    key: ' '
+  host: 'http(s)://example.com'
+  api-key: ' '
   server-id: 0
-  upload-period: 10
-ranks:
-  enable: true
-  order:
+ranks-order:
     - 1
     - 2
 messages:
   permission: '&cSorry, you cannot use this.'
   usage: '&cUsage: /litenameless &e<reload|setgroup>&c.'
-  cmds:
-    reload: '&aReloaded LiteNameless!'
-    setgroup:
-      usage: '&cUsage /litenameless setgroup &e<player> <group_id>&c.'
-      invalid: '&cError! That player is not online.'
-      complete: '&aSet group of &5%TARGET%&a to &e%GROUP%&a. &7Check the server log for potential errors.'
+  reload: '&aReloaded LiteNameless!'
+  setgroup:
+    usage: '&cUsage /litenameless setgroup &e<player> <group_id>&c.'
+    invalid-player: '&cError! That player is not online.'
+    invalid-number: '&cInvalid number specified.'
+    complete: '&aSet group of &5%TARGET%&a to &e%GROUP%&a.'
 do-not-touch-version: 1

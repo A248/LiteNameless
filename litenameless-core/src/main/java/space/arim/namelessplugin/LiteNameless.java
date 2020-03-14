@@ -19,19 +19,20 @@
 package space.arim.namelessplugin;
 
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.namelessmc.NamelessAPI.NamelessAPI;
+import com.namelessmc.NamelessAPI.NamelessException;
+
 import space.arim.universal.util.AutoClosable;
-import space.arim.universal.util.web.HttpStatusException;
 
 import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.util.web.NamelessHandler;
-import space.arim.api.util.web.SenderException;
 
-import space.arim.namelessplugin.api.SenderWrapper;
 import space.arim.namelessplugin.api.PlayerWrapper;
+import space.arim.namelessplugin.api.SenderWrapper;
 import space.arim.namelessplugin.api.ServerEnv;
 
 public class LiteNameless implements AutoClosable {
@@ -43,7 +44,7 @@ public class LiteNameless implements AutoClosable {
 	private final Config config;
 	private final Commands commands;
 	
-	private NamelessHandler nameless;
+	private NamelessAPI nameless;
 	
 	public LiteNameless(Logger logger, File folder, ServerEnv env) {
 		this.logger = logger;
@@ -63,6 +64,13 @@ public class LiteNameless implements AutoClosable {
 	
 	public void reload() {
 		config.reload();
+		if (config.getBoolean("enable-plugin")) {
+			try {
+				nameless = new NamelessAPI(config.getString("settings.host"), config.getString("settings.api-key"), false);
+			} catch (MalformedURLException ex) {
+				logger.log(Level.WARNING, "Could not initialise API! Are you sure your host and api key settings are correct?", ex);
+			}
+		}
 	}
 	
 	public boolean executeCommand(SenderWrapper player, String[] args) {
@@ -73,36 +81,36 @@ public class LiteNameless implements AutoClosable {
 		if (nameless != null) {
 			env.getRegistry().getRegistration(AsyncExecution.class).execute(() -> {
 				updateUsername(player.getUniqueId(), player.getName());
-				String groupId = getGroup(player);
-				if (groupId != null) {
-					setGroup(player.getUniqueId(), groupId);
-				}
+				updateGroup(player);
 			});
 		}
 	}
 	
 	private void updateUsername(UUID uuid, String name) {
-		try {
-			nameless.updateUsername(uuid, name);
-		} catch (HttpStatusException | SenderException ex) {
-			logger().log(Level.WARNING, "Failed to update username for " + uuid + " / " + name, ex);
+		//logger().log(Level.WARNING, "Failed to update username for " + uuid + " / " + name, ex);
+	}
+	
+	private void updateGroup(PlayerWrapper player) {
+		int groupId = getGroup(player);
+		if (groupId != -1) {
+			setGroup(player.getUniqueId(), groupId);
 		}
 	}
 	
-	private String getGroup(PlayerWrapper player) {
-		String groupId = null;
-		for (int group : config().getInts("ranks.order")) {
-			if (player.hasPermission("litenameless.rank." + Integer.toString(group))) {
-				groupId = Integer.toString(group);
+	private int getGroup(PlayerWrapper player) {
+		int groupId = -1;
+		for (int group : config().getInts("ranks-order")) {
+			if (player.hasPermission("litenameless.rank." + group)) {
+				groupId = group;
 			}
 		}
 		return groupId;
 	}
 	
-	void setGroup(UUID uuid, String groupId) {
+	void setGroup(UUID uuid, int groupId) {
 		try {
-			nameless.setGroup(uuid, groupId);
-		} catch (HttpStatusException | SenderException ex) {
+			nameless.getPlayer(uuid).setGroup(groupId);
+		} catch (NamelessException ex) {
 			logger.log(Level.WARNING, "Failed to set group for " + uuid + " to " + groupId, ex);
 		}
 	}

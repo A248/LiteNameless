@@ -35,34 +35,36 @@ class Commands {
 	}
 	
 	boolean executeCommand(SenderWrapper player, String[] args) {
-		if (!player.hasPermission("litenameless.cmd.base")) {
-			player.sendMessage(core.config().getString("messages.permission"));
-			return true;
+		if (!player.hasPermission("litenameless.reload") && !player.hasPermission("litenameless.setgroup")) {
+			permission(player);
 		} else if (args.length > 0) {
 			if (args[0].equalsIgnoreCase("reload")) {
-				if (player.hasPermission("litenameless.cmd.reload")) {
+				if (player.hasPermission("litenameless.reload")) {
 					core.config().reload();
-					player.sendMessage(core.config().getString("messages.cmds.reload"));
+					player.sendMessage(core.config().getString("messages.reload"));
 				} else {
-					player.sendMessage(core.config().getString("messages.permission"));
+					permission(player);
 				}
 			} else if (args[0].equalsIgnoreCase("setgroup")) {
-				if (player.hasPermission("litenameless.cmd.setgroup")) {
+				if (player.hasPermission("litenameless.setgroup")) {
 					if (args.length > 2) {
 						try {
 							UUID target = core.env().getRegistry().getRegistration(UUIDResolver.class).resolveName(args[1], false);
+							int groupId = Integer.parseInt(args[2]);
 							core.env().getRegistry().getRegistration(AsyncExecution.class).execute(() -> {
-								core.setGroup(target, args[2]);
-								player.sendMessage(core.config().getString("messages.cmds.setgroup.complete").replace("%TARGET%", args[1]).replace("%GROUP%", args[2]));
+								core.setGroup(target, groupId);
+								player.sendMessage(core.config().getString("messages.setgroup.complete").replace("%TARGET%", args[1]).replace("%GROUP%", args[2]));
 							});
 						} catch (PlayerNotFoundException ex) {
-							player.sendMessage(core.config().getString("messages.cmds.setgroup.invalid").replace("%TARGET%", args[1]));
+							player.sendMessage(core.config().getString("messages.setgroup.invalid-player").replace("%TARGET%", args[1]));
+						} catch (NumberFormatException ex) {
+							player.sendMessage(core.config().getString("messages.setgroup.invalid-number"));
 						}
 					} else {
-						player.sendMessage(core.config().getString("messages.cmds.setgroup.usage"));
+						usage(player);
 					}
 				} else {
-					player.sendMessage(core.config().getString("messages.permission"));
+					permission(player);
 				}
 			} else {
 				usage(player);
@@ -71,6 +73,10 @@ class Commands {
 			usage(player);
 		}
 		return true;
+	}
+	
+	private void permission(SenderWrapper player) {
+		player.sendMessage(core.config().getString("messages.permission"));
 	}
 	
 	private void usage(SenderWrapper player) {
