@@ -59,6 +59,7 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	public void onEnable() {
 		core = new LiteNamelessCore(getLogger(), getDataFolder(), SpigotPlatform.get().convertPluginInfo(this), getRegistry());
 		core.reload();
+		getServer().getPluginManager().registerEvents(this, this);
 		getRegistry().register(LiteNameless.class, core);
 	}
 	

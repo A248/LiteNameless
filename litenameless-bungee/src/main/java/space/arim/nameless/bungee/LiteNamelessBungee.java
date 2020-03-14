@@ -67,6 +67,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 			}
 			
 		});
+		getProxy().getPluginManager().registerListener(this, this);
 		getRegistry().register(LiteNameless.class, core);
 	}
 	
