@@ -20,8 +20,6 @@ package space.arim.nameless.core;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.util.UUID;
-
 import org.slf4j.Logger;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
@@ -140,27 +138,15 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	}
 	
 	private void directUpdateGroup(PlayerWrapper player) {
-		int groupId = getGroup(player);
-		if (groupId != -1) {
-			setGroup(player.getUniqueId(), groupId);
-		}
-	}
-	
-	private int getGroup(PlayerWrapper player) {
-		int groupId = -1;
 		for (int group : config().getInts("ranks-order")) {
 			if (player.hasPermission("litenameless.rank." + group)) {
-				groupId = group;
+				try {
+					nameless.getPlayer(player.getUniqueId()).setGroup(group);
+				} catch (NamelessException ex) {
+					logger.warn("Failed to set group for " + player + " to " + group, ex);
+				}
+				break;
 			}
-		}
-		return groupId;
-	}
-	
-	private void setGroup(UUID uuid, int groupId) {
-		try {
-			nameless.getPlayer(uuid).setGroup(groupId);
-		} catch (NamelessException ex) {
-			logger.warn("Failed to set group for " + uuid + " to " + groupId, ex);
 		}
 	}
 	

@@ -31,16 +31,12 @@ class Commands {
 	boolean executeCommand(SenderWrapper player, String[] args) {
 		if (!player.hasPermission("litenameless.reload")) {
 			permission(player);
-		} else if (args.length > 0) {
-			if (args[0].equalsIgnoreCase("reload")) {
-				if (player.hasPermission("litenameless.reload")) {
-					core.config().reload();
-					player.sendMessage(core.config().getString("messages.reload"));
-				} else {
-					permission(player);
-				}
+		} else if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
+			if (player.hasPermission("litenameless.reload")) {
+				core.config().reload();
+				player.sendMessage(core.config().getString("messages.reload"));
 			} else {
-				usage(player);
+				permission(player);
 			}
 		} else {
 			usage(player);
