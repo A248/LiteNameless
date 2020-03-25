@@ -64,6 +64,7 @@
 							<outputFile>target/${project.name}_v${core.version}.jar</outputFile>
 							<artifactSet>
 								<includes>
+									<include>com.namelessmc:NamelessAPI</include>
 									<include>space.arim:litenameless-core</include>
 									<include>space.arim:litenameless-api</include>
 								</includes>
