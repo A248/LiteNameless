@@ -27,16 +27,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.RegistryPriority;
 import space.arim.universal.registry.UniversalRegistry;
 
-import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.platform.spigot.DefaultAsyncExecution;
-import space.arim.api.platform.spigot.DefaultSyncExecution;
-import space.arim.api.platform.spigot.DefaultUUIDResolver;
-import space.arim.api.platform.spigot.SpigotPlatform;
-import space.arim.api.uuid.UUIDResolver;
-
+import space.arim.api.plugin.ArimApiPluginSpigot;
 import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
 
@@ -46,9 +40,9 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onLoad() {
-		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(this));
-		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(this));
-		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
+		ArimApiPluginSpigot.registerDefaultUUIDResolutionIfAbsent(getRegistry());
+		ArimApiPluginSpigot.registerDefaultAsyncExecutionIfAbsent(getRegistry());
+		ArimApiPluginSpigot.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}
 	
 	private Registry getRegistry() {
@@ -57,10 +51,10 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), SpigotPlatform.get().convertPluginInfo(this), getRegistry());
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
 		core.reload();
 		getServer().getPluginManager().registerEvents(this, this);
-		getRegistry().register(LiteNameless.class, core);
+		getRegistry().register(LiteNameless.class, RegistryPriority.LOWER, core, "LiteNameless-Spigot");
 	}
 	
 	@Override

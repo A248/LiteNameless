@@ -27,15 +27,10 @@ import net.md_5.bungee.event.EventHandler;
 import net.md_5.bungee.event.EventPriority;
 
 import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.RegistryPriority;
 import space.arim.universal.registry.UniversalRegistry;
 
-import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.concurrent.SyncExecution;
-import space.arim.api.platform.bungee.BungeePlatform;
-import space.arim.api.platform.bungee.DefaultAsyncExecution;
-import space.arim.api.platform.bungee.DefaultSyncExecution;
-import space.arim.api.platform.bungee.DefaultUUIDResolver;
-import space.arim.api.uuid.UUIDResolver;
+import space.arim.api.plugin.ArimApiPluginBungee;
 
 import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
@@ -46,9 +41,9 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@Override
 	public void onLoad() {
-		getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(this));
-		getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(this));
-		getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(this));
+		ArimApiPluginBungee.registerDefaultUUIDResolutionIfAbsent(getRegistry());
+		ArimApiPluginBungee.registerDefaultAsyncExecutionIfAbsent(getRegistry());
+		ArimApiPluginBungee.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}
 	
 	private Registry getRegistry() {
@@ -57,7 +52,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), BungeePlatform.get().convertPluginInfo(this), getRegistry());
+		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
 		core.reload();
 		getProxy().getPluginManager().registerCommand(this, new Command("litenameless") {
 			
@@ -68,7 +63,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 			
 		});
 		getProxy().getPluginManager().registerListener(this, this);
-		getRegistry().register(LiteNameless.class, core);
+		getRegistry().register(LiteNameless.class, RegistryPriority.LOWER, core, "LiteNameless-Bungee");
 	}
 	
 	@Override

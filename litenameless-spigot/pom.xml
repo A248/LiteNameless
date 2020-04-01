@@ -95,6 +95,10 @@
 			<artifactId>litenameless-core</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>space.arim</groupId>
+			<artifactId>arimapi-plugin</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
 			<scope>provided</scope>

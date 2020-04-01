@@ -31,25 +31,15 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 import org.spongepowered.api.plugin.Dependency;
 import org.spongepowered.api.plugin.Plugin;
-import org.spongepowered.api.plugin.PluginContainer;
-import org.spongepowered.api.scheduler.AsynchronousExecutor;
-import org.spongepowered.api.scheduler.SpongeExecutorService;
-import org.spongepowered.api.scheduler.SynchronousExecutor;
 
 import com.google.inject.Inject;
 
 import space.arim.universal.registry.Registry;
+import space.arim.universal.registry.RegistryPriority;
 import space.arim.universal.registry.UniversalRegistry;
 
-import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.concurrent.Shutdownable;
-import space.arim.api.concurrent.SyncExecution;
 import space.arim.api.platform.sponge.DecoupledCommand;
-import space.arim.api.platform.sponge.DefaultAsyncExecution;
-import space.arim.api.platform.sponge.DefaultSyncExecution;
-import space.arim.api.platform.sponge.DefaultUUIDResolver;
-import space.arim.api.platform.sponge.SpongePlatform;
-import space.arim.api.uuid.UUIDResolver;
+import space.arim.api.plugin.ArimApiPluginSponge;
 
 import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.core.LiteNamelessCore;
@@ -66,18 +56,10 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	
 	private LiteNamelessCore core;
 	
-	@Inject
-	public LiteNamelessSponge(@AsynchronousExecutor SpongeExecutorService async, @SynchronousExecutor SpongeExecutorService sync) {
-		sync.execute(() -> {
-			PluginContainer plugin = getPlugin();
-			getRegistry().computeIfAbsent(AsyncExecution.class, () -> new DefaultAsyncExecution(plugin, async));
-			getRegistry().computeIfAbsent(SyncExecution.class, () -> new DefaultSyncExecution(plugin, sync));
-			getRegistry().computeIfAbsent(UUIDResolver.class, () -> new DefaultUUIDResolver(plugin));
-		});
-	}
-	
-	private PluginContainer getPlugin() {
-		return Sponge.getPluginManager().fromInstance(LiteNamelessSponge.this).get();
+	public LiteNamelessSponge() {
+		ArimApiPluginSponge.registerDefaultUUIDResolutionIfAbsent(getRegistry());
+		ArimApiPluginSponge.registerDefaultAsyncExecutionIfAbsent(getRegistry());
+		ArimApiPluginSponge.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}
 	
 	private Registry getRegistry() {
@@ -86,17 +68,13 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	
 	@Listener
 	public void onEnable(@SuppressWarnings("unused") GamePreInitializationEvent evt) {
-		core = new LiteNamelessCore(logger, folder, SpongePlatform.get().convertPluginInfo(getPlugin()), getRegistry());
+		core = new LiteNamelessCore(logger, folder, getRegistry());
 		Sponge.getCommandManager().register(this, this, "litenameless");
-		getRegistry().register(LiteNameless.class, core);
+		getRegistry().register(LiteNameless.class, RegistryPriority.LOWER, core, "LiteNameless-Sponge");
 	}
 	
 	@Listener
     public void onDisable(@SuppressWarnings("unused") GameStoppingServerEvent evt) {
-		AsyncExecution async = getRegistry().getRegistration(AsyncExecution.class);
-		if (async instanceof Shutdownable) {
-			((Shutdownable) async).shutdownAndWait();
-		}
         core.close();
         core = null;
     }

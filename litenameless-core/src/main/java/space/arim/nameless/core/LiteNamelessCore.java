@@ -20,16 +20,15 @@ package space.arim.nameless.core;
 
 import java.io.File;
 import java.net.MalformedURLException;
+
 import org.slf4j.Logger;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 
 import space.arim.universal.registry.Registry;
-import space.arim.universal.registry.RegistryPriority;
 
 import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.platform.PlatformRegistrable;
 import space.arim.api.platform.PluginInformation;
 import space.arim.api.util.log.LoggerConverter;
 
@@ -45,7 +44,7 @@ import space.arim.nameless.api.SenderWrapper;
  * @author A248
  *
  */
-public class LiteNamelessCore extends PlatformRegistrable implements LiteNameless {
+public class LiteNamelessCore implements LiteNameless {
 	
 	private final Logger logger;
 	private final Registry registry;
@@ -66,11 +65,9 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	 * 
 	 * @param logger the logger
 	 * @param folder the config folder
-	 * @param information the plugin information to use
 	 * @param registry the registry
 	 */
-	public LiteNamelessCore(Logger logger, File folder, PluginInformation information, Registry registry) {
-		super(information);
+	public LiteNamelessCore(Logger logger, File folder, Registry registry) {
 		this.logger = logger;
 		this.registry = registry;
 		config = new Config(folder);
@@ -85,15 +82,10 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	 * 
 	 * @param logger a JUL logger
 	 * @param folder the config folder
-	 * @param information the plugin information to use
 	 * @param registry the registry
 	 */
-	public LiteNamelessCore(java.util.logging.Logger logger, File folder, PluginInformation information, Registry registry) {
-		super(information);
-		this.logger = LoggerConverter.get().convert(logger);
-		this.registry = registry;
-		config = new Config(folder);
-		commands = new Commands(this);
+	public LiteNamelessCore(java.util.logging.Logger logger, File folder, Registry registry) {
+		this(LoggerConverter.get().convert(logger), folder, registry);
 	}
 	
 	@Override
@@ -126,7 +118,7 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	@Override
 	public void updateGroup(PlayerWrapper player) {
 		if (enabled()) {
-			getRegistry().getRegistration(AsyncExecution.class).execute(() -> directUpdateGroup(player));
+			getRegistry().load(AsyncExecution.class).execute(() -> directUpdateGroup(player));
 		}
 	}
 	
@@ -152,11 +144,6 @@ public class LiteNamelessCore extends PlatformRegistrable implements LiteNameles
 	
 	Config config() {
 		return config;
-	}
-	
-	@Override
-	public byte getPriority() {
-		return RegistryPriority.LOWER;
 	}
 	
 }
