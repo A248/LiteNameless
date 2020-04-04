@@ -29,7 +29,6 @@ import com.namelessmc.NamelessAPI.NamelessException;
 import space.arim.universal.registry.Registry;
 
 import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.platform.PluginInformation;
 import space.arim.api.util.log.LoggerConverter;
 
 import space.arim.nameless.api.LiteNameless;
@@ -55,13 +54,7 @@ public class LiteNamelessCore implements LiteNameless {
 	private volatile NamelessAPI nameless;
 	
 	/**
-	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}. <br>
-	 * <br>
-	 * For the plugin information, programmers may use: <br>
-	 * * {@link space.arim.api.platform.bungee.BungeePlatform#convertPluginInfo(Plugin) BungeePlatform.get().convertPluginInfo(Plugin)} <br>
-	 * * {@link space.arim.api.platform.spigot.SpigotPlatform#convertPluginInfo(Plugin) SpigotPlatform.get().convertPluginInfo(Plugin)} <br>
-	 * * {@link space.arim.api.platform.sponge.SpongePlatform#convertPluginInfo(PluginContainer) SpongePlatform.get().convertPluginInfo(PluginContainer)} <br>
-	 * depending on the platform in question.
+	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}.
 	 * 
 	 * @param logger the logger
 	 * @param folder the config folder
@@ -75,7 +68,7 @@ public class LiteNamelessCore implements LiteNameless {
 	}
 	
 	/**
-	 * See {@link #LiteNamelessCore(Logger, File, PluginInformation, Registry)} first <br>
+	 * See {@link #LiteNamelessCore(Logger, File, Registry)} first <br>
 	 * <br>
 	 * Whenever possible, slf4j should be preferred and used instead. <br>
 	 * This is an alternative constructor used to maintain support for the JUL logging framework.
