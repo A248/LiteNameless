@@ -21,15 +21,15 @@ package space.arim.nameless.core;
 import java.io.File;
 import java.net.MalformedURLException;
 
-import org.slf4j.Logger;
-
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
+
+import space.arim.shaded.org.slf4j.Logger;
+import space.arim.shaded.org.slf4j.LoggerFactory;
 
 import space.arim.universal.registry.Registry;
 
 import space.arim.api.concurrent.AsyncExecution;
-import space.arim.api.util.log.LoggerConverter;
 
 import space.arim.nameless.api.LiteNameless;
 import space.arim.nameless.api.PlayerWrapper;
@@ -54,31 +54,16 @@ public class LiteNamelessCore implements LiteNameless {
 	private volatile NamelessAPI nameless;
 	
 	/**
-	 * Primary constructor, based on a logger, configuration folder, and {@link Registry}.
+	 * Primary constructor, based on a configuration folder and {@link Registry}.
 	 * 
-	 * @param logger the logger
 	 * @param folder the config folder
 	 * @param registry the registry
 	 */
-	public LiteNamelessCore(Logger logger, File folder, Registry registry) {
-		this.logger = logger;
+	public LiteNamelessCore(File folder, Registry registry) {
+		this.logger = LoggerFactory.getLogger(LiteNamelessCore.class);
 		this.registry = registry;
 		config = new Config(folder);
 		commands = new Commands(this);
-	}
-	
-	/**
-	 * See {@link #LiteNamelessCore(Logger, File, Registry)} first <br>
-	 * <br>
-	 * Whenever possible, slf4j should be preferred and used instead. <br>
-	 * This is an alternative constructor used to maintain support for the JUL logging framework.
-	 * 
-	 * @param logger a JUL logger
-	 * @param folder the config folder
-	 * @param registry the registry
-	 */
-	public LiteNamelessCore(java.util.logging.Logger logger, File folder, Registry registry) {
-		this(LoggerConverter.get().convert(logger), folder, registry);
 	}
 	
 	@Override

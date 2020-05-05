@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>space.arim</groupId>
 		<artifactId>litenameless</artifactId>
-		<version>0.3.1-SNAPSHOT</version>
+		<version>0.4.1-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>litenameless-spigot</artifactId>
@@ -15,7 +15,7 @@
 	
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>${project.name}_v${core.version}_unshaded</finalName>
+		<finalName>${project.name}_v${project.version}</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
@@ -61,7 +61,6 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
-							<outputFile>target/${project.name}_v${core.version}.jar</outputFile>
 							<artifactSet>
 								<includes>
 									<include>com.namelessmc:NamelessAPI</include>

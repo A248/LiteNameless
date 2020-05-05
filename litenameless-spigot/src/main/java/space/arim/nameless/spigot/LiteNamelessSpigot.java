@@ -51,7 +51,7 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
+		core = new LiteNamelessCore(getDataFolder(), getRegistry());
 		core.reload();
 		getServer().getPluginManager().registerEvents(this, this);
 		getRegistry().register(LiteNameless.class, RegistryPriority.LOWER, core, "LiteNameless-Spigot");

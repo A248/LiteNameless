@@ -52,7 +52,7 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@Override
 	public void onEnable() {
-		core = new LiteNamelessCore(getLogger(), getDataFolder(), getRegistry());
+		core = new LiteNamelessCore(getDataFolder(), getRegistry());
 		core.reload();
 		getProxy().getPluginManager().registerCommand(this, new Command("litenameless") {
 			

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>space.arim</groupId>
 		<artifactId>litenameless</artifactId>
-		<version>0.3.1-SNAPSHOT</version>
+		<version>0.4.1-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>litenameless-sponge</artifactId>
@@ -15,7 +15,7 @@
 	
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<finalName>${project.name}_v${core.version}_unshaded</finalName>
+		<finalName>${project.name}_v${project.version}</finalName>
 		<resources>
 			<resource>
 				<directory>${project.build.directory}/shared-resources</directory>

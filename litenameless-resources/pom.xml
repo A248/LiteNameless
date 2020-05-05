@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>space.arim</groupId>
 		<artifactId>litenameless</artifactId>
-		<version>0.3.1-SNAPSHOT</version>
+		<version>0.4.1-SNAPSHOT</version>
 	</parent>
 	
 	<artifactId>litenameless-resources</artifactId>
@@ -15,7 +15,6 @@
 	<packaging>pom</packaging>
 	
 	<build>
-		<finalName>${project.name}_v${core.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
