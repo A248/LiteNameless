@@ -24,8 +24,8 @@ import java.net.MalformedURLException;
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
 
-import space.arim.shaded.org.slf4j.Logger;
-import space.arim.shaded.org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import space.arim.universal.registry.Registry;
 

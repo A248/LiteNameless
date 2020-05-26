@@ -19,8 +19,8 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
     	<maven.compiler.target>1.8</maven.compiler.target>
     	<core.author>A248</core.author>
-    	<universal.version>0.8.1-SNAPSHOT</universal.version>
-    	<arimapi.version>0.9.1-SNAPSHOT</arimapi.version>
+    	<universal.version>0.9.1-SNAPSHOT</universal.version>
+    	<arimapi.version>0.12.2-SNAPSHOT</arimapi.version>
     	<nameless.version>arim-1.0.3</nameless.version>
     	<spigot.version>1.8.8-R0.1-SNAPSHOT</spigot.version>
 		<bungeecord.version>1.15-SNAPSHOT</bungeecord.version>
