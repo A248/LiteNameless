@@ -20,6 +20,8 @@ package space.arim.nameless.core;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import com.namelessmc.NamelessAPI.NamelessAPI;
 import com.namelessmc.NamelessAPI.NamelessException;
@@ -45,9 +47,9 @@ import space.arim.nameless.api.SenderWrapper;
  */
 public class LiteNamelessCore implements LiteNameless {
 	
-	private final Logger logger;
-	private final Registry registry;
+	private static final Logger logger = LoggerFactory.getLogger(LiteNamelessCore.class);
 	
+	private final Registry registry;
 	private final Config config;
 	private final Commands commands;
 	
@@ -60,7 +62,6 @@ public class LiteNamelessCore implements LiteNameless {
 	 * @param registry the registry
 	 */
 	public LiteNamelessCore(File folder, Registry registry) {
-		this.logger = LoggerFactory.getLogger(LiteNamelessCore.class);
 		this.registry = registry;
 		config = new Config(folder);
 		commands = new Commands(this);
@@ -94,29 +95,25 @@ public class LiteNamelessCore implements LiteNameless {
 	}
 	
 	@Override
-	public void updateGroup(PlayerWrapper player) {
+	public CompletableFuture<?> updateGroup(PlayerWrapper player) {
 		if (enabled()) {
-			getRegistry().load(AsyncExecution.class).execute(() -> directUpdateGroup(player));
-		}
-	}
-	
-	@Override
-	public void updateGroupSynchronous(PlayerWrapper player) {
-		if (enabled()) {
-			directUpdateGroup(player);
-		}
-	}
-	
-	private void directUpdateGroup(PlayerWrapper player) {
-		for (int group : config().getInts("ranks-order")) {
-			if (player.hasPermission("litenameless.rank." + group)) {
-				try {
-					nameless.getPlayer(player.getUniqueId()).setGroup(group);
-				} catch (NamelessException ex) {
-					logger.warn("Failed to set group for " + player + " to " + group, ex);
+			for (int group : config().getInts("ranks-order")) {
+				if (player.hasPermission("litenameless.rank." + group)) {
+					UUID uuid = player.getUniqueId();
+					String name = player.getName();
+					return CompletableFuture.runAsync(() -> setGroupDirect(name, uuid, group), getRegistry().load(AsyncExecution.class));
 				}
-				break;
 			}
+			return CompletableFuture.completedFuture(null);
+		}
+		return null;
+	}
+	
+	private void setGroupDirect(String name, UUID uuid, int group) {
+		try {
+			nameless.getPlayer(uuid).setGroup(group);
+		} catch (NamelessException ex) {
+			logger.warn("Failed to set group for " + name + " to " + group, ex);
 		}
 	}
 	
