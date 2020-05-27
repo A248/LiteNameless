@@ -83,6 +83,7 @@ public interface LiteNameless extends AutoClosable {
 	 * 3. The plugin will update the user's group on the Nameless website.
 	 * 
 	 * @param player the wrapped player whose group will be updated
+	 * @return a future representing a possible web request
 	 */
 	CompletableFuture<?> updateGroup(PlayerWrapper player);
 	
