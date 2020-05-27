@@ -190,7 +190,7 @@
 	<repositories>
 		<repository>
 			<id>arim-repo</id>
-			<url>https://dl.cloudsmith.io/public/anand-beh/arim-repo/maven/</url>
+			<url>https://www.arim.space/repo/</url>
 		</repository>
 	</repositories>
 </project>
