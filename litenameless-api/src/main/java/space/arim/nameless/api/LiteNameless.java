@@ -18,6 +18,8 @@
  */
 package space.arim.nameless.api;
 
+import java.util.concurrent.CompletableFuture;
+
 import space.arim.universal.registry.Registry;
 import space.arim.universal.util.AutoClosable;
 
@@ -67,16 +69,6 @@ public interface LiteNameless extends AutoClosable {
 	boolean executeCommand(SenderWrapper player, String[] args);
 	
 	/**
-	 * Same as {@link #updateGroup(PlayerWrapper)} but conducts the operation synchronously. <br>
-	 * <br>
-	 * Most programmers will not need this method, unless calling code is already asynchronous. <br>
-	 * <b>Care should always be taken to ensure IO operations do not run on the main thread</b>
-	 * 
-	 * @param player the wrapped player whose group will be updated
-	 */
-	void updateGroupSynchronous(PlayerWrapper player);
-	
-	/**
 	 * Detects a player's group and updates it on the Nameless website. <br>
 	 * <br>
 	 * The plugin automatically updates a player's group on login; however, programmers may require
@@ -88,13 +80,10 @@ public interface LiteNameless extends AutoClosable {
 	 * 2. If the player has the permission corresponding to the group ID, the plugin will use that ID.
 	 * If the player has multiple permissions corresponding to different group IDs,
 	 * the plugin will use the last group ID in the configuration list.  <br>
-	 * 3. The plugin will update the user's group on the Nameless website. <br>
-	 * <br>
-	 * The procedure is done asynchronously blocking the main thread. <br>
-	 * In rare cases, (for example, if calling code is already asynchronous), {@link #updateGroupSynchronous(PlayerWrapper)} may be used.
+	 * 3. The plugin will update the user's group on the Nameless website.
 	 * 
 	 * @param player the wrapped player whose group will be updated
 	 */
-	void updateGroup(PlayerWrapper player);
+	CompletableFuture<?> updateGroup(PlayerWrapper player);
 	
 }
