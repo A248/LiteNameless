@@ -24,6 +24,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.Order;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
@@ -78,7 +79,7 @@ public class LiteNamelessSponge extends DecoupledCommand {
 		return core.executeCommand(new WrappedSender(sender), args);
 	}
 	
-	@Listener
+	@Listener(order = Order.PRE)
 	public void onJoin(ClientConnectionEvent.Join evt) {
 		core.updateGroup(new WrappedPlayer(evt.getTargetEntity()));
 	}
