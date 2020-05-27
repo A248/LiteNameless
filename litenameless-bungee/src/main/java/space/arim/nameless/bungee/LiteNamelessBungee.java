@@ -41,7 +41,6 @@ public class LiteNamelessBungee extends Plugin implements Listener {
 	
 	@Override
 	public void onLoad() {
-		ArimApiPluginBungee.registerDefaultUUIDResolutionIfAbsent(getRegistry());
 		ArimApiPluginBungee.registerDefaultAsyncExecutionIfAbsent(getRegistry());
 		ArimApiPluginBungee.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}

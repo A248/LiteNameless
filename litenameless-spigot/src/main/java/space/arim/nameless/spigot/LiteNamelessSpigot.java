@@ -40,7 +40,6 @@ public class LiteNamelessSpigot extends JavaPlugin implements Listener {
 	
 	@Override
 	public void onLoad() {
-		ArimApiPluginSpigot.registerDefaultUUIDResolutionIfAbsent(getRegistry());
 		ArimApiPluginSpigot.registerDefaultAsyncExecutionIfAbsent(getRegistry());
 		ArimApiPluginSpigot.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}

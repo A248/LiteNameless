@@ -52,7 +52,6 @@ public class LiteNamelessSponge extends DecoupledCommand {
 	private LiteNamelessCore core;
 	
 	public LiteNamelessSponge() {
-		ArimApiPluginSponge.registerDefaultUUIDResolutionIfAbsent(getRegistry());
 		ArimApiPluginSponge.registerDefaultAsyncExecutionIfAbsent(getRegistry());
 		ArimApiPluginSponge.registerDefaultSyncExecutionIfAbsent(getRegistry());
 	}
